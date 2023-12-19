@@ -1,0 +1,173 @@
+<style>
+
+    .about-milkbar-text__title {
+        font-size: 3rem;
+        font-weight: bolder;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .about-milkbar-text-wrapper {
+        padding: 0 1rem;
+    }
+
+    .about-milkbar-text__title {
+        margin: 10px 0;
+    }
+
+    @media screen and (max-width: 425px) {
+        .about-milkbar-text-wrapper p {
+            font-size: 13px;
+            line-height: 20px;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        .about-milkbar-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin: 3rem;
+        }
+        video {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .about-milkbar-video-wrapper {
+            height: 100%;
+        }
+        .about-milkbar-text__title {
+        font-size: 4.5rem;
+        }
+        .about-milkbar-text__title {
+            margin: 40px 0;
+        }
+    }
+
+</style>
+
+<script>
+
+    window.onload = () => {
+        confetti({
+            spread: 360,
+            particleCount: 300,
+        })
+    };
+
+</script>
+
+<div class="about-milkbar-wrapper {% if section.settings.layout == 'text_first' %}text-first{% endif %}" id="confetti-container">
+    {% if section.settings.layout == 'image_first' %}
+        {% assign videoUrl = "https://res.cloudinary.com/dvsychzia/video/upload/q_92/v1553279918/Commissary Videos/MilkBar_AboutUs_B" %}
+        {% include 'about-milkbar-video', url: videoUrl %}
+    {% endif %}
+    <div class="about-milkbar-text-wrapper">
+        {% for block in section.blocks %}
+            {% case block.type %}
+                {% when 'heading' %}
+                    <h2 class="about-milkbar-text__title">{{ section.settings.heading }}</h2>
+                {% when 'richtext' %}
+                    <p>{{ section.settings.description }}</p>
+            {% endcase %}
+        {% endfor %}
+    </div>
+    {% if section.settings.layout == 'text_first' %}
+        {% assign videoUrl = "https://res.cloudinary.com/dvsychzia/video/upload/q_92/v1553279918/Commissary Videos/MilkBar_AboutUs_B" %}
+        {% include 'about-milkbar-video', url: videoUrl %}
+        </div>
+    {% endif %}
+</div>
+
+
+{% schema %}
+{
+    "name": "About",
+    "disabled_on": {
+        "groups": ["header", "footer"]
+    },
+    "settings": [
+        {
+            "type": "video_url",
+            "id": "video_url",
+            "label": "Video URL",
+            "accept": ["youtube", "vimeo"]
+        },
+        {
+            "type": "text",
+            "id": "heading",
+            "default": "Title",
+            "label": "Section Heading"
+        },
+        {
+            "type": "richtext",
+            "id": "description",
+            "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "label": "Description"
+        },
+        {
+            "type": "select",
+            "id": "layout",
+            "options": [
+                {
+                "value": "image_first",
+                "label": "t:sections.image-with-text.settings.layout.options__1.label"
+                },
+                {
+                "value": "text_first",
+                "label": "t:sections.image-with-text.settings.layout.options__2.label"
+                }
+            ],
+            "default": "image_first",
+            "label": "t:sections.image-with-text.settings.layout.label",
+            "info": "t:sections.image-with-text.settings.layout.info"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "heading",
+            "name": "Title",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "default": "Title",
+                    "label": "Block Heading"
+                }
+            ]
+        },
+        {
+            "type": "richtext",
+            "name": "Description Block",
+            "settings": [
+                {
+                    "type": "richtext",
+                    "id": "description",
+                    "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+                    "label": "Block Description"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "About Milk Bar",
+            "category": "custom",
+            "blocks": [
+                {
+                    "type": "heading"
+                },
+                {
+                    "type": "richtext"
+                }
+            ]
+        }
+    ]
+}
+
+{% endschema %}

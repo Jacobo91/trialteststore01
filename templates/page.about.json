@@ -1,14 +1,34 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "about-milkbar": {
+      "type": "about-about-milkbar",
+      "blocks": {
+        "a2b57195-db8b-4a99-b11d-feb871f50df0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Title"
+          }
+        },
+        "fa7745d0-48d7-44b0-a273-3f59a7f514dc": {
+          "type": "richtext",
+          "settings": {
+            "description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "a2b57195-db8b-4a99-b11d-feb871f50df0",
+        "fa7745d0-48d7-44b0-a273-3f59a7f514dc"
+      ],
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "video_url": "https:\/\/www.youtube.com\/watch?v=RnOEUdjQQDc&ab_channel=DisneyLatinoam%C3%A9rica",
+        "heading": "About Milk Bar",
+        "description": "<p>Milk Bar is a sweet (and occasionally savory) shop that’s been turning familiar treats upside down and on their heads, shaking up the dessert scene since 2008. Bon Appetit magazine called us “one of the most exciting bakeries in the country.” But you can literally just call us Milk Bar. We’re not big on feeding the hype beast. But we’re super into feeding our flavorful treats to those who crave the unexpected.<\/p><p>Founded by James Beard award-winning pastry chef Christina Tosi, Milk Bar first opened its doors in NYC’s East Village, and soon developed a loyal fanbase.<\/p><p>Recently profiled on Netflix’s docu-series Chef’s Table, Tosi is known for combining her formal culinary training and her informal obsession with home baking, grocery store staples and classic American sweets, with menu items like the Compost Cookie®, layer cakes with unfrosted sides, Cereal Milk™ Soft Serve, Milk Bar Pie and more.<\/p><p>At Milk Bar, we believe in the transformative power of a really freakin’ good cookie or an outstanding piece of cake. And we consider NO occasion at all, to be a perfectly valid occasion to celebrate yourself or someone else. We hope you’ll agree.<\/p>",
+        "layout": "image_first"
       }
     }
   },
   "order": [
-    "main"
+    "about-milkbar"
   ]
 }
