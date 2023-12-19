@@ -51,12 +51,17 @@
 </style>
 
 <script>
-    window.onload = function() {
-        alert('Welcome! This is a message displayed on page load.');
+
+    window.onload = () => {
+        confetti({
+            spread: 360,
+            particleCount: 300,
+        })
     };
+
 </script>
 
-<div class="about-milkbar-wrapper {% if section.settings.layout == 'text_first' %}text-first{% endif %}">
+<div class="about-milkbar-wrapper {% if section.settings.layout == 'text_first' %}text-first{% endif %}" id="confetti-container">
     {% if section.settings.layout == 'image_first' %}
         {% assign videoUrl = "https://res.cloudinary.com/dvsychzia/video/upload/q_92/v1553279918/Commissary Videos/MilkBar_AboutUs_B" %}
         {% include 'about-milkbar-video', url: videoUrl %}
