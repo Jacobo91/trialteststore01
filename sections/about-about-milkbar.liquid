@@ -63,8 +63,7 @@
 
 <div class="about-milkbar-wrapper {% if section.settings.layout == 'text_first' %}text-first{% endif %}" id="confetti-container">
     {% if section.settings.layout == 'image_first' %}
-        {% assign videoUrl = "https://res.cloudinary.com/dvsychzia/video/upload/q_92/v1553279918/Commissary Videos/MilkBar_AboutUs_B" %}
-        {% include 'about-milkbar-video', url: videoUrl %}
+        {% include 'about-milkbar-video' %}
     {% endif %}
     <div class="about-milkbar-text-wrapper">
         {% for block in section.blocks %}
@@ -77,8 +76,7 @@
         {% endfor %}
     </div>
     {% if section.settings.layout == 'text_first' %}
-        {% assign videoUrl = "https://res.cloudinary.com/dvsychzia/video/upload/q_92/v1553279918/Commissary Videos/MilkBar_AboutUs_B" %}
-        {% include 'about-milkbar-video', url: videoUrl %}
+        {% include 'about-milkbar-video'%}
         </div>
     {% endif %}
 </div>
