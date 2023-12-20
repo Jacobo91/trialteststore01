@@ -1,52 +1,38 @@
+{{ 'black-friday-section.css' | asset_url | stylesheet_tag  }}
+
 {% style %}
-    
+
     .gallery {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
         place-items: center;
         padding-left: {{ section.settings.padding_left }}px;
         padding-right: {{ section.settings.padding_right }}px;
-    }
-
-    .product-card__image {
-        width: 100%;
-        object-fit: cover;
-    }
-
-    .product-card__title {
-        font-size: 12px;
+        align-items: flex-end;
     }
 
     @media screen and (min-width: 900px) {
         .gallery {
-        grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            padding-left: {{ section.settings.padding_left |  times: 10 | round: 0}}px;
+            padding-right: {{ section.settings.padding_right |  times: 10 | round: 0}}px;
         }
+
     }
 
 {% endstyle %}
 
-<div class="gallery ">
+<div id="products-gallery">
     {% paginate collection.products by 10 %}
-        {% for product in collection.products %}
-            <div class="product-card">
-                <div>
-                    <img 
-                        src="{{ product.featured_media |  image_url: width: 250 }}" 
-                        alt="{{ product.title }}"
-                        class="product-card__image"
-                        loading="lazy"
-                    >
-                    
-                </div>
-                <div
-                    class="product-card__info"
-                >
-                    <p class="product-card__title">
-                        {{ product.title }}
-                    </p>
-                </div>
-            </div>
-        {% endfor %}
+        <div class="gallery " >
+            {% for product in collection.products %}
+                {% render 'card-product-blackfriday', product: product %}
+            {% endfor %}
+        </div>
+        {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate, anchor: '#products-gallery' %}
+        {%- endif -%}
     {% endpaginate %}
 </div>
 
@@ -62,7 +48,7 @@
             "step": 4,
             "unit": "px",
             "label": "Left Padding",
-            "default": 52
+            "default": 4
         },
         {
             "type": "range",
@@ -72,7 +58,7 @@
             "step": 4,
             "unit": "px",
             "label": "Right Padding",
-            "default": 52
+            "default": 4
         }
     ]
 }
