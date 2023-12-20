@@ -1,0 +1,34 @@
+<a href="{{ product.url }}" class="product-card">
+    <div class="product-card__image-wrapper">
+        <img 
+            src="{{ product.featured_media |  image_url: width: 250 }}" 
+            alt="{{ product.title }}"
+            class="product-card__image"
+            loading="lazy"
+        >
+        {% assign totalInventory = 0 %}
+        {% for variant in product.variants %}
+            {% assign totalInventory = totalInventory | plus: variant.inventory_quantity %}
+        {% endfor %}
+        {% if totalInventory < 5 %}
+            <span class="last-items-badge">Last Items</span>
+        {% endif %}
+    </div>
+    <div
+        class="product-card__info"
+    >
+        <p class="product-card__title">
+            {{ product.title }}
+        </p>
+        {% if product.options.size > 0 -%}
+            <div class="product-card__options">
+                {% for option in product.options %}
+                    <span>{{ option }}</span>
+                {% endfor %}
+            </div>
+        {%- endif %}
+        <p class="product-card__price">
+            {{ product.price | money}}
+        </p>
+    </div>
+</a>
