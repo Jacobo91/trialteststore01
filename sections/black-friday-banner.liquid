@@ -1,0 +1,27 @@
+{% style %}
+
+{% endstyle %}
+
+<div>
+    <div>
+        <img 
+            src="{{ collection.image | image_url: width: 750 }}" 
+            alt="{{ collection.title }}"
+            loading="lazy"
+        >
+    </div>
+    <div>
+        <h1 class="collection-hero__title page-width">
+            {{- collection.title |  escape -}}
+        </h1>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "black friday banner",
+    "settings": [
+
+        ]
+}
+{% endschema %}
