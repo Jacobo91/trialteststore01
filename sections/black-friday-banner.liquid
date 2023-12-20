@@ -8,7 +8,7 @@
     .black-friday-banner__image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     @media screen and (min-width: 630px) {
@@ -24,10 +24,10 @@
         class="black-friday-banner__image-wrapper"
     >
         <img 
-            src="{{ collection.image | image_url: width: 750 }}" 
-            alt="{{ collection.title }}"
-            loading="lazy"
-            class="black-friday-banner__image"
+        src="{{ collection.image | image_url: width: 750 }}" 
+        alt="{{ collection.title }}"
+        loading="lazy"
+        class="black-friday-banner__image"
         >
     </div>
     <div
@@ -38,3 +38,4 @@
         </h1>
     </div>
 </div>
+
