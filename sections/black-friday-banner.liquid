@@ -3,6 +3,10 @@
     .black-friday-banner__image-wrapper {
         height: 250px;
         margin-bottom: 40px;
+        background-image: url('{{ collection.image |  image_url: width: 1000 }}');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center
     }
 
     .black-friday-banner__image {
@@ -23,12 +27,7 @@
     <div
         class="black-friday-banner__image-wrapper"
     >
-        <img 
-        src="{{ collection.image | image_url: width: 750 }}" 
-        alt="{{ collection.title }}"
-        loading="lazy"
-        class="black-friday-banner__image"
-        >
+
     </div>
     <div
         class="black-friday-banner__title"
@@ -38,4 +37,11 @@
         </h1>
     </div>
 </div>
+
+{% comment %} <img 
+src="{{ collection.image | image_url: width: 750 }}" 
+alt="{{ collection.title }}"
+loading="lazy"
+class="black-friday-banner__image"
+> {% endcomment %}
 
