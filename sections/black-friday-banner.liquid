@@ -1,16 +1,38 @@
 {% style %}
 
+    .black-friday-banner__image-wrapper {
+        height: 250px;
+        margin-bottom: 40px;
+    }
+
+    .black-friday-banner__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media screen and (min-width: 630px) {
+        .black-friday-banner__image-wrapper {
+        height: 500px;
+    }
+    }
+
 {% endstyle %}
 
-<div>
-    <div>
+<div class="black-friday-banner">
+    <div
+        class="black-friday-banner__image-wrapper"
+    >
         <img 
             src="{{ collection.image | image_url: width: 750 }}" 
             alt="{{ collection.title }}"
             loading="lazy"
+            class="black-friday-banner__image"
         >
     </div>
-    <div>
+    <div
+        class="black-friday-banner__title"
+    >
         <h1 class="collection-hero__title page-width">
             {{- collection.title |  escape -}}
         </h1>
