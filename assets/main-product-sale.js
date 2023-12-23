@@ -22,35 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-const colorSamples = document.querySelectorAll('.color-sample');
-const colorFeedback = document.getElementById('colorFeedback');
-
-
-function updateColorFeedback(event) {
-    const selectedColor = event.target.style.backgroundColor;
-    const capitalizedColor = selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1);
-    colorFeedback.textContent = capitalizedColor;
-}
-
-
-
-colorSamples.forEach(sample => {
-    sample.addEventListener('click', updateColorFeedback);
-});
-
-
-const sizeSelector = document.getElementById('size-selector');
-const sizeFeedback = document.getElementById('sizeFeedback');
-
-function updateSizeFeedback(event) {
-    const selectedOption = sizeSelector.options[sizeSelector.selectedIndex];
-    const selectedSize = selectedOption.textContent;
-    sizeFeedback.textContent = selectedSize !== 'Please Select' ? selectedSize : '';
-
-}
-
-sizeSelector.addEventListener('change', updateSizeFeedback);
-
 function shareOnFacebook() {
     const url = encodeURIComponent(window.location.href);
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;

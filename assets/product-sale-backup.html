@@ -1,0 +1,42 @@
+function findVariantId() {
+  const urlParams = new URLSearchParams(window.location.search);
+  let shouldReload = false; // Flag to determine if a reload is needed
+
+  const matchingVariantByColor = selectedColor ?
+      variants.filter(variant => variant.option2 === selectedColor) :
+      variants;
+    
+  const matchingVariantBySize = selectedSize ?
+      matchingVariantByColor.filter(variant => variant.option1 === selectedSize) :
+      matchingVariantByColor;
+
+  console.log("Matching Variant By Color:", matchingVariantByColor);
+  console.log("Matching Variant By Size:", matchingVariantBySize);
+
+  if (selectedColor && !selectedSize) {
+      selectedVariantId = matchingVariantByColor[0].id;
+      urlParams.set('variant', selectedVariantId);
+      shouldReload = true; // Reload if only color is selected
+  } else if (!selectedColor && selectedSize && matchingVariantBySize.length > 0) {
+      selectedVariantId = matchingVariantBySize[0].id;
+      urlParams.set('variant', selectedVariantId);
+      shouldReload = true; // Reload if only size is selected
+  } else if (selectedColor && selectedSize && matchingVariantBySize.length > 0) {
+      selectedVariantId = variants.find(variant => selectedSize == variant.option1 && selectedColor == variant.option2).id;
+      urlParams.set('variant', selectedVariantId);
+      shouldReload = true; // Reload if both color and size are selected and match
+  } else {
+      urlParams.delete('variant');
+      shouldReload = false; // Reload if neither color nor size is selected or no match found
+  }
+
+  console.log("Selected Variant ID:", selectedVariantId);
+  console.log("Should Reload:", shouldReload);
+
+  const currentURL = `${window.location.origin}${window.location.pathname}?${urlParams.toString()}`;
+  history.replaceState({}, '', currentURL);
+  
+  if (shouldReload) {
+      window.location.href = currentURL; // Reload the page if necessary
+  }
+}
