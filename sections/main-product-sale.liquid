@@ -92,6 +92,7 @@
   const colorInput = document.querySelectorAll('#color');
   const sizeInput = document.getElementById('size');
   const variants = {{ product.variants | json }};
+  const media = {{ product.media | json}}
   let currentId;
   let selectedSize;
   let selectedColor;
@@ -125,7 +126,8 @@ function updateUrlWithVariantId(id) {
 
     const current_variant = variants.find(variant => variant.id == id);
     const featured_image = current_variant.featured_image.src;
-
+    const filteredMedia = media.filter(item => item.alt == current_variant.featured_media.alt);
+    console.log('filteredMedia:', filteredMedia)
     const imageBig = document.getElementById('thumbnail_big');
     const imageSmall = document.getElementById('thumbnail_small');
     const price = document.getElementById('price');
@@ -134,6 +136,38 @@ function updateUrlWithVariantId(id) {
 
     imageBig.setAttribute('src', featured_image);
     imageSmall.setAttribute('src', featured_image);
+
+    // Create swiper
+    const swiperWrapper = document.querySelector('.swiper-wrapper');
+    swiperWrapper.innerHTML = '';
+
+    filteredMedia.forEach(media => {
+
+        const swiperSlide = document.createElement('div');
+        swiperSlide.classList.add('swiper-slide');
+
+        const image = document.createElement('img');
+        image.src = media.src;
+        image.setAttribute('id', 'thumbnail_big');
+
+        swiperSlide.appendChild(image);
+
+        swiperWrapper.appendChild(swiperSlide);
+    });
+
+// Create Gallery
+const galleryImageWrapper = document.querySelector('.gallery__image-wrapper');
+galleryImageWrapper.innerHTML = ''
+// Loop through each item in filteredMedia and append images to galleryImageWrapper
+filteredMedia.forEach(media => {
+    // Create an img element
+    const image = document.createElement('img');
+    image.src = media.src;
+    image.setAttribute('id', 'thumbnail_small');
+
+    // Append the img element to the existing gallery wrapper
+    galleryImageWrapper.appendChild(image);
+});
 
     if (current_variant.compare_at_price !== null && current_variant.compare_at_price > current_variant.price) {
         price.textContent = formatMoney(current_variant.price);
