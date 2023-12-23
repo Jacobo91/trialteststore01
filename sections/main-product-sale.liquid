@@ -78,6 +78,21 @@
         <span id="size-feedback">Size: {{ product.selected_or_first_available_variant.option1 }}</span>
       </p>
 
+      <div class="social-media">
+        <p>Share:</p>
+        <ul>
+          <li onclick={shareOnFacebook()}>
+            <i class="fa-brands fa-facebook-f"></i>
+          </li>
+          <li onclick={shareOnTwitter()}>
+            <i class="fa-brands fa-twitter"></i>
+          </li>
+          <li onclick={shareOnPinterest()}>
+            <i class="fa-brands fa-pinterest-p"></i>
+          </li>
+        </ul>
+      </div>
+
     </div>
   
 
