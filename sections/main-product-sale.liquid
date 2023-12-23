@@ -98,27 +98,25 @@
   let selectedColor;
   let selectedVariantId;
 
-  console.log(variants);
-
   function formatMoney(amount, currency = 'USD', locale = 'en-US') {
     const formatter = new Intl.NumberFormat(locale, {
-        style: 'currency',
-        currency: currency,
-        minimumFractionDigits: 2
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 2
     });
 
     const formattedAmount = formatter.format(amount / 100);
     return formattedAmount;
-}
+  }
 
-function updateUrlWithVariantId(id) {
+  function updateUrlWithVariantId(id) {
     const urlParams = new URLSearchParams(window.location.search);
     const variantParam = 'variant';
 
     if (urlParams.has(variantParam)) {
-        urlParams.set(variantParam, id);
+      urlParams.set(variantParam, id);
     } else {
-        urlParams.append(variantParam, id);
+      urlParams.append(variantParam, id);
     }
 
     const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
@@ -143,50 +141,49 @@ function updateUrlWithVariantId(id) {
 
     filteredMedia.forEach(media => {
 
-        const swiperSlide = document.createElement('div');
-        swiperSlide.classList.add('swiper-slide');
+      const swiperSlide = document.createElement('div');
+      swiperSlide.classList.add('swiper-slide');
 
-        const image = document.createElement('img');
-        image.src = media.src;
-        image.setAttribute('id', 'thumbnail_big');
+      const image = document.createElement('img');
+      image.src = media.src;
+      image.setAttribute('id', 'thumbnail_big');
 
-        swiperSlide.appendChild(image);
+      swiperSlide.appendChild(image);
 
-        swiperWrapper.appendChild(swiperSlide);
+      swiperWrapper.appendChild(swiperSlide);
     });
 
-// Create Gallery
-const galleryImageWrapper = document.querySelector('.gallery__image-wrapper');
-galleryImageWrapper.innerHTML = ''
-// Loop through each item in filteredMedia and append images to galleryImageWrapper
-filteredMedia.forEach(media => {
-    // Create an img element
-    const image = document.createElement('img');
-    image.src = media.src;
-    image.setAttribute('id', 'thumbnail_small');
+    // Create Gallery
+    const galleryImageWrapper = document.querySelector('.gallery__image-wrapper');
+    galleryImageWrapper.innerHTML = ''
+    // Loop through each item in filteredMedia and append images to galleryImageWrapper
+    filteredMedia.forEach(media => {
+      // Create an img element
+      const image = document.createElement('img');
+      image.src = media.src;
+      image.setAttribute('id', 'thumbnail_small');
 
-    // Append the img element to the existing gallery wrapper
-    galleryImageWrapper.appendChild(image);
-});
+      // Append the img element to the existing gallery wrapper
+      galleryImageWrapper.appendChild(image);
+    });
 
     if (current_variant.compare_at_price !== null && current_variant.compare_at_price > current_variant.price) {
-        price.textContent = formatMoney(current_variant.price);
-        comparedAtPrice.textContent = formatMoney(current_variant.compare_at_price);
-        price.style.display = 'inline'; // Display the sale price
-        comparedAtPrice.style.display = 'inline'; // Display the compared price
-        priceStd.style.display = 'none'; // Hide the standard price
+      price.textContent = formatMoney(current_variant.price);
+      comparedAtPrice.textContent = formatMoney(current_variant.compare_at_price);
+      price.style.display = 'inline'; // Display the sale price
+      comparedAtPrice.style.display = 'inline'; // Display the compared price
+      priceStd.style.display = 'none'; // Hide the standard price
     } else if (current_variant.price !== null) {
-        price.textContent = ''; // Hide the sale price
-        comparedAtPrice.textContent = ''; // Hide the compared price
-        priceStd.textContent = formatMoney(current_variant.price);
-        priceStd.style.display = 'inline'; // Display the standard price
+      price.textContent = ''; // Hide the sale price
+      comparedAtPrice.textContent = ''; // Hide the compared price
+      priceStd.textContent = formatMoney(current_variant.price);
+      priceStd.style.display = 'inline'; // Display the standard price
     } else {
-        price.style.display = 'none'; // Hide the sale price
-        comparedAtPrice.style.display = 'none'; // Hide the compared price
-        priceStd.style.display = 'none'; // Hide the standard price
+      price.style.display = 'none'; // Hide the sale price
+      comparedAtPrice.style.display = 'none'; // Hide the compared price
+      priceStd.style.display = 'none'; // Hide the standard price
     }
-}
-
+  }
 
   function findVariantId() {
     let id;
@@ -207,18 +204,18 @@ filteredMedia.forEach(media => {
 
     if (id) {
       updateUrlWithVariantId(id);
-      
+
     }
   }
 
-  colorInput.forEach(input => input.addEventListener('change', function() {
+  colorInput.forEach(input => input.addEventListener('change', function () {
     document.getElementById('color-feedback').textContent = `Color: ${input.value}, `;
     selectedColor = input.value;
     console.log("selected color:", selectedColor);
     findVariantId();
   }));
 
-  sizeInput.addEventListener("change", function(e) {
+  sizeInput.addEventListener("change", function (e) {
     const { value } = e.target;
     document.getElementById('size-feedback').textContent = `Size: ${value}`;
     selectedSize = value;
@@ -231,11 +228,74 @@ filteredMedia.forEach(media => {
     findVariantId();
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     setInitialValues();
+
+    const swiper = new Swiper('.swiper', {
+
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    });
+
+    const galleryImages = document.querySelectorAll(".gallery img");
+
+    galleryImages.forEach((image, index) => {
+      image.addEventListener("click", () => {
+        swiper.slideTo(index);
+      });
+    });
+
+    function handleThumbnailClick(event) {
+      const clickedThumbnail = event.target.closest('#thumbnail_small');
+      if (clickedThumbnail) {
+        const thumbnailIndex = Array.from(clickedThumbnail.parentNode.children).indexOf(clickedThumbnail);
+        console.log(`Thumbnail number ${thumbnailIndex}`);
+        swiper.slideTo(thumbnailIndex);
+      }
+    }
+
+    document.body.addEventListener('click', handleThumbnailClick);
+
+    const thumbnailMiniatures = document.querySelectorAll('#thumbnail_small');
+
+    thumbnailMiniatures.forEach((thumbnail, index) => {
+      thumbnail.addEventListener('click', () => {
+        console.log(`thumbnail number ${index}`);
+        swiper.slideTo(index);
+      })
+    });
+
   });
 
+  function shareOnFacebook() {
+    const url = encodeURIComponent(window.location.href);
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    window.open(facebookUrl, '_blank');
+  }
+
+  function shareOnTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('Check out this cool link!');
+    const twitterUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+    window.open(twitterUrl, '_blank');
+  }
+
+  function shareOnPinterest() {
+    const url = encodeURIComponent(window.location.href);
+    const imageUrl = encodeURIComponent('IMAGE_URL_TO_SHARE'); // Replace with your image URL
+    const description = encodeURIComponent('Description of your pinned image');
+    const pinterestUrl = `https://pinterest.com/pin/create/button/?url=${url}&media=${imageUrl}&description=${description}`;
+    window.open(pinterestUrl, '_blank');
+  }
+
 </script>
+
+
 
 
 
