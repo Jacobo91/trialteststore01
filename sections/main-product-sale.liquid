@@ -1,166 +1,4 @@
-<style>
-    .product {
-      display: grid;
-      place-items: center;
-    }
-  
-    .product_title {
-      font-weight: bolder;
-    }
-  
-    .product-wrapper {
-      display: grid;
-      place-items: center;
-    }
-  
-    .media-container {
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-  
-    .swiper {
-      position: relative;
-      width: 100%;
-      height: 400px;
-      overflow: hidden;
-    }
-  
-    .swiper-wrapper {
-      width: 100%;
-      height: 100%;
-      display: flex;
-    }
-  
-    .swiper-slide {
-      width: 100%;
-      height: 100%;
-    }
-
-    .swiper-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  
-    .swiper-button-prev,
-    .swiper-button-next {
-      width: 30px;
-      height: 30px;
-      background-size: cover;
-      cursor: pointer;
-    }
-  
-    .swiper-button-prev {
-      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'%3E%3Cpath d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='%234c71ae'%3E%3C/path%3E%3C/svg%3E") !important;
-      color: black
-      }
-  
-      .swiper-button-next {
-          background-image: url('data:image/svg+xml;charset=utf-8,%3Fxml version="1.0" encoding="utf-8"%3F%3Csvg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M4 12H20M20 12L16 8M20 12L16 16" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3C/path%3E%3C/svg%3E') !important;
-          color: black
-          }
-  
-      .gallery {
-          width: 100%;
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          justify-content: center;
-      }
-  
-      .gallery img {
-          cursor: pointer;
-      }
-  
-      .product-info {
-          align-self: flex-start;
-      }
-  
-      .price-sale {
-          color: red;
-          font-size: 2rem;
-          font-weight: 600;
-      }
-  
-      .compare-price {
-          font-size: 14px;
-          text-decoration: line-through;
-      }
-  
-      @media screen and (min-width: 750px) {
-          .product-wrapper {
-          grid-template-columns: repeat(2, 1fr);
-          }
-  
-      }
-  
-      .product-info p {
-          margin-bottom: 0;
-      }
-  
-      .size-title {
-          margin-top: 0;
-      }
-
-      input[type="radio"] {
-        -webkit-appearance: none;
-        appearance: none;
-        margin: 0;
-        margin: 0;
-        font: inherit;
-        color: currentColor;
-        width: 1.15em;
-        height: 1.15em;
-        cursor: pointer;
-        border-radius: 50%;
-      }
-
-      input[type="radio"]:checked {
-        border: 2px solid rgb(32, 99, 255);
-        transform: scale(1.2);
-      }
-
-    .share {
-      text-transform: capitalize;
-      font-weight: 600;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 1rem;
-    }
-  
-    .share p {
-      margin-top: 0;
-    }
-  
-    .share a {
-      color: black;
-      text-decoration: none;
-    }
-  
-    hr {
-      margin: 1rem 0;
-    }
-  
-    .btn {
-      display: inline-block;
-      margin-top: 2rem;
-      background-color: #1E696B;
-      color: white;
-      padding: 0.8rem 4rem;
-      border-radius: 3px;
-      border: transparent;
-      cursor: pointer;
-    }
-  
-    #quantity {
-      display: block;
-      margin-top: 2rem;
-      width: 104px;
-    }
-  
-</style>
+{{ 'main-product-sale.css' |  asset_url |  stylesheet_tag }}
 
 
 
@@ -171,14 +9,13 @@
     {{ product.title }}
   </h2>
   <div class="product-wrapper">
-
     <!-- Product Media -->
     <div class="media-container">
       <!-- Swiper -->
       <div class="swiper">
         <div class="swiper-wrapper">
           <div class="swiper-slide" >
-            <img src="{{ current_variant.featured_image |  image_url: width: 1000}}" >
+            <img src="{{ current_variant.featured_image |  image_url: width: 1000}}" id="thumbnail_big">
           </div>
         </div>
     
@@ -189,25 +26,21 @@
     
       <!-- Thumbnails gallery -->
       <div class="gallery">
-        <div>
-          {{ current_variant.featured_image |  image_url: width: 80 |  image_tag }}
+        <div class="gallery__image-wrapper">
+          <img src="{{ current_variant.featured_image |  image_url: width: 80}}" id="thumbnail_small">
         </div>
       </div>
 
     </div>
-  
+    
     <div class="product-info">
-
         <!-- product price -->
-      {% if current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}
-        <p class="product-info__price">
-            <span class="price-sale">{{ current_variant.price | money }} </span>
-            <span class="compare-price">{{ current_variant.compare_at_price | money }}</span>
-        </p>
-      {% else %}
-        <p class="product-info__price">{{ current_variant.price | money }}</p>
-      {% endif %}
-
+      <p class="product-info__price">
+          <span class="price-sale" id="price" style="color: red; display: none;"></span>
+          <span class="compare-price" id="compared_at_price"></span>
+          <span class="price-standard" id="price-standard" style="color: black; display: none;"></span>
+      </p>
+      
       <!-- Product Options -->
       {% if product.options.size > 0 %}
         {% for option in product.options %}
@@ -230,7 +63,7 @@
             <label>
               <p>{{ option }}:</p>
               <select name="Size" id="size">
-                <option>Please Select</option>
+                <option >Please Select</option>
                 {% for value in product.options_by_name[option].values %}
                   <option value="{{ value }}">{{ value }}</option>
                 {% endfor %}
@@ -253,29 +86,94 @@
 </div> 
 
 
-<script>
+<script defer>
+
+  let current_variant;
   const colorInput = document.querySelectorAll('#color');
   const sizeInput = document.getElementById('size');
   const variants = {{ product.variants | json }};
+  let currentId;
   let selectedSize;
   let selectedColor;
   let selectedVariantId;
-  const btn = document.getElementById('variant-checker');
+
+  console.log(variants);
+
+  function formatMoney(amount, currency = 'USD', locale = 'en-US') {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2
+    });
+
+    const formattedAmount = formatter.format(amount / 100);
+    return formattedAmount;
+}
+
+function updateUrlWithVariantId(id) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const variantParam = 'variant';
+
+    if (urlParams.has(variantParam)) {
+        urlParams.set(variantParam, id);
+    } else {
+        urlParams.append(variantParam, id);
+    }
+
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    history.replaceState(null, '', newUrl);
+
+    const current_variant = variants.find(variant => variant.id == id);
+    const featured_image = current_variant.featured_image.src;
+
+    const imageBig = document.getElementById('thumbnail_big');
+    const imageSmall = document.getElementById('thumbnail_small');
+    const price = document.getElementById('price');
+    const comparedAtPrice = document.getElementById('compared_at_price');
+    const priceStd = document.getElementById('price-standard');
+
+    imageBig.setAttribute('src', featured_image);
+    imageSmall.setAttribute('src', featured_image);
+
+    if (current_variant.compare_at_price !== null && current_variant.compare_at_price > current_variant.price) {
+        price.textContent = formatMoney(current_variant.price);
+        comparedAtPrice.textContent = formatMoney(current_variant.compare_at_price);
+        price.style.display = 'inline'; // Display the sale price
+        comparedAtPrice.style.display = 'inline'; // Display the compared price
+        priceStd.style.display = 'none'; // Hide the standard price
+    } else if (current_variant.price !== null) {
+        price.textContent = ''; // Hide the sale price
+        comparedAtPrice.textContent = ''; // Hide the compared price
+        priceStd.textContent = formatMoney(current_variant.price);
+        priceStd.style.display = 'inline'; // Display the standard price
+    } else {
+        price.style.display = 'none'; // Hide the sale price
+        comparedAtPrice.style.display = 'none'; // Hide the compared price
+        priceStd.style.display = 'none'; // Hide the standard price
+    }
+}
+
 
   function findVariantId() {
-    if (selectedColor && selectedSize) {
-      const matchingVariant = variants.find(variant => {
-        return variant.option1 === selectedSize && variant.option2 === selectedColor;
-      });
+    let id;
 
-      if (matchingVariant) {
-        selectedVariantId = matchingVariant.id;
-        const currentURL = `${window.location.href}?variant=${selectedVariantId}`;
-        window.location.href = currentURL; 
-      }
-    } else {
-      const currentURL = `${window.location.href.split('?')[0]}`;
-      history.replaceState({}, '', currentURL); 
+    if (selectedColor && !selectedSize) {
+      const variant = variants.find(variant => variant.option2 == selectedColor);
+      id = variant.id;
+      current_variant = variant;
+      console.log("variant by color id:", current_variant);
+    } else if (selectedColor && selectedSize) {
+      const variant = variants.find(variant => variant.option1 == selectedSize && variant.option2 == selectedColor);
+      id = variant.id;
+      current_variant = variant;
+      console.log("variant by color & size id:", current_variant);
+    }
+
+    console.log("id:", id);
+
+    if (id) {
+      updateUrlWithVariantId(id);
+      
     }
   }
 
@@ -294,8 +192,6 @@
     findVariantId();
   });
 
-  btn.addEventListener('click', findVariantId);
-
   function setInitialValues() {
     selectedColor = colorInput[0].value;
     findVariantId();
@@ -305,7 +201,6 @@
     setInitialValues();
   });
 
-  console.log(variants);
 </script>
 
 
