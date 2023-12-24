@@ -1,4 +1,4 @@
-{{ 'main-product-sale.css' |  asset_url |  stylesheet_tag }}
+{{ 'main-product-sale.css' | asset_url | stylesheet_tag }}
 
 
 
@@ -14,16 +14,16 @@
       <!-- Swiper -->
       <div class="swiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" >
+          <div class="swiper-slide">
             <img src="{{ current_variant.featured_image |  image_url: width: 1000}}" id="thumbnail_big">
           </div>
         </div>
-    
+
         <!-- Navigation buttons -->
         <div class="swiper-button-prev"><span></span></div>
         <div class="swiper-button-next"><span></span></div>
       </div>
-    
+
       <!-- Thumbnails gallery -->
       <div class="gallery">
         <div class="gallery__image-wrapper">
@@ -32,47 +32,48 @@
       </div>
 
     </div>
-    
+
     <div class="product-info">
-        <!-- product price -->
+      <!-- product price -->
       <p class="product-info__price">
-          <span class="price-sale" id="price" style="color: red; display: none;"></span>
-          <span class="compare-price" id="compared_at_price"></span>
-          <span class="price-standard" id="price-standard" style="color: black; display: none;"></span>
+        <span class="price-sale" id="price" style="color: red; display: none;"></span>
+        <span class="compare-price" id="compared_at_price"></span>
+        <span class="price-standard" id="price-standard" style="color: black; display: none;"></span>
       </p>
-      
-      <!-- Product Options -->
-      {% if product.options.size > 0 %}
+
+      <!-- form starts here-->
+      <form action="/cart/add" method="post">
+        <input type="hidden" name="id" id="id" value="{{ product.variants.first.id }}" />
+        <!-- Product Options -->
+        {% if product.options.size > 0 %}
         {% for option in product.options %}
-          {% if option == 'Color' %}
-            <p>{{ option }}:</p>
-            {% for value in product.options_by_name[option].values %}
-              <label class="color-label">
-                <input 
-                    type="radio" 
-                    name="Color" 
-                    value="{{ value }}" 
-                    style="background-color: {{ value }};"
-                    id="color"        
-                >
-                
-            </label>
-              {% endfor %}
-              <p></p>
-          {% elsif option == 'Size' %}
-            <label>
-              <p>{{ option }}:</p>
-              <select name="Size" id="size">
-                <option >Please Select</option>
-                {% for value in product.options_by_name[option].values %}
-                  <option value="{{ value }}">{{ value }}</option>
-                {% endfor %}
-              </select>
-            </label>
-          {% endif %}
+        {% if option == 'Color' %}
+        <p>{{ option }}:</p>
+        {% for value in product.options_by_name[option].values %}
+        <label class="color-label">
+          <input type="radio" name="Color" value="{{ value }}" style="background-color: {{ value }};" id="color">
+
+        </label>
         {% endfor %}
-      {% endif %}
-      
+        {% elsif option == 'Size' %}
+        <label>
+          <p>{{ option }}:</p>
+          <select name="Size" id="size">
+            <option>Please Select</option>
+            {% for value in product.options_by_name[option].values %}
+            <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <p>Quantity:</p>
+        <input min="1" type="number" id="quantity" name="quantity" value="1"/>
+        <div>
+          <input type="submit" value="Add to cart" class="btn" />
+        </div>
+      </form>
       <p>
         <span id="color-feedback">Color: {{ product.selected_or_first_available_variant.option2 }},</span>
         <span id="size-feedback">Size: {{ product.selected_or_first_available_variant.option1 }}</span>
@@ -94,11 +95,11 @@
       </div>
 
     </div>
-  
+
 
   </div>
 
-</div> 
+</div>
 
 
 <script defer>
@@ -146,9 +147,12 @@
     const price = document.getElementById('price');
     const comparedAtPrice = document.getElementById('compared_at_price');
     const priceStd = document.getElementById('price-standard');
+    const formVariantIdentifier = document.getElementById("id");
 
     imageBig.setAttribute('src', featured_image);
     imageSmall.setAttribute('src', featured_image);
+    console.log("changing variant id to:", id)
+    formVariantIdentifier.value = id;
 
     // Create swiper
     const swiperWrapper = document.querySelector('.swiper-wrapper');
@@ -171,37 +175,38 @@
     // Create Gallery
     const galleryImageWrapper = document.querySelector('.gallery__image-wrapper');
     galleryImageWrapper.innerHTML = ''
-    // Loop through each item in filteredMedia and append images to galleryImageWrapper
+
     filteredMedia.forEach(media => {
-      // Create an img element
+
       const image = document.createElement('img');
       image.src = media.src;
       image.setAttribute('id', 'thumbnail_small');
 
-      // Append the img element to the existing gallery wrapper
+
       galleryImageWrapper.appendChild(image);
     });
 
     if (current_variant.compare_at_price !== null && current_variant.compare_at_price > current_variant.price) {
       price.textContent = formatMoney(current_variant.price);
       comparedAtPrice.textContent = formatMoney(current_variant.compare_at_price);
-      price.style.display = 'inline'; // Display the sale price
-      comparedAtPrice.style.display = 'inline'; // Display the compared price
-      priceStd.style.display = 'none'; // Hide the standard price
+      price.style.display = 'inline';
+      comparedAtPrice.style.display = 'inline';
+      priceStd.style.display = 'none';
     } else if (current_variant.price !== null) {
-      price.textContent = ''; // Hide the sale price
-      comparedAtPrice.textContent = ''; // Hide the compared price
+      price.textContent = '';
+      comparedAtPrice.textContent = '';
       priceStd.textContent = formatMoney(current_variant.price);
-      priceStd.style.display = 'inline'; // Display the standard price
+      priceStd.style.display = 'inline';
     } else {
-      price.style.display = 'none'; // Hide the sale price
-      comparedAtPrice.style.display = 'none'; // Hide the compared price
-      priceStd.style.display = 'none'; // Hide the standard price
+      price.style.display = 'none';
+      comparedAtPrice.style.display = 'none';
+      priceStd.style.display = 'none';
     }
   }
 
   function findVariantId() {
     let id;
+    
 
     if (selectedColor && !selectedSize) {
       const variant = variants.find(variant => variant.option2 == selectedColor);
@@ -219,7 +224,6 @@
 
     if (id) {
       updateUrlWithVariantId(id);
-
     }
   }
 
@@ -309,12 +313,3 @@
   }
 
 </script>
-
-
-
-
-
-
-
-
-
