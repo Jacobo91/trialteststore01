@@ -1,0 +1,23 @@
+.upsell {
+    margin-top: 8rem;
+}
+
+.upsell h2 {
+    margin-top: 0;
+}
+
+.upsell-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.upsell-gallery__image-wrapper{
+    object-fit: cover;
+}
+
+.upsell-gallery__image-wrapper img{
+    width: 100%;
+    height: 100%;
+}

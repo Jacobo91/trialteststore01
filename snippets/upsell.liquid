@@ -1,0 +1,15 @@
+{{ 'upsell.css' |  asset_url |  stylesheet_tag }}
+
+
+<div class="upsell">
+    <h2>Products you may like:</h2>
+    <div class="upsell-gallery">
+        {% for upsell_item in upsell_items %}
+    
+        <div class="upsell-gallery__image-wrapper">
+            <img src="{{ upsell_item |  image_url: width: 200  }}" data-aspectratio="{{ image.aspect_ratio }}" alt="">
+        </div>
+    
+        {% endfor %}
+    </div>
+</div>
