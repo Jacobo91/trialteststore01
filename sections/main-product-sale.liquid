@@ -4,10 +4,14 @@
 
 <div class="page-width product">
   {% assign current_variant = product.selected_or_first_available_variant %}
-
+  {% assign metafields = product.metafields %}
   <h2 class="product_title" id="product_title">
     {{ product.title }}
   </h2>
+  {% if product.metafields.custom.promotion_description != blank %}
+    <h4>{{ product.metafields.custom.promotion_description }}</h4>
+  {% endif %}
+  
   <div class="product-wrapper">
     <!-- Product Media -->
     <div class="media-container">
@@ -96,8 +100,12 @@
 
     </div>
 
-
+    
   </div>
+
+  {% if product.metafields.custom.upsell != blank%}
+    {% render 'upsell', upsell_items: product.metafields.custom.upsell.value %}
+  {% endif %} 
 
 </div>
 
@@ -108,11 +116,36 @@
   const colorInput = document.querySelectorAll('#color');
   const sizeInput = document.getElementById('size');
   const variants = {{ product.variants | json }};
-  const media = {{ product.media | json}}
+  const media = {{ product.media | json}};
+  const metas = {{ product.metafields.custom | json }};
+  const upsell = metas.upsell;
+  const gids = upsell.map(gid => gid.split('/').pop());
+  const upsellProducts= []
   let currentId;
   let selectedSize;
   let selectedColor;
   let selectedVariantId;
+
+  // gids.map(gid => {
+  //   fetch(`/admin/api/2023-10/products/${gid}.json`)
+  //     .then(response => response.json())
+  //     .then(data => upsellProducts.push(data))
+  //     .catch(error => console.log(`error fetching products by id: ${error.message}`))
+  // })
+
+  console.log("upsellProducts:", upsellProducts)
+
+  console.log("upsell:", upsell);
+
+  function convertToEmbedUrl(regularUrl) {
+    var videoId = regularUrl.split('v=')[1];
+    var ampersandPosition = videoId.indexOf('&');
+    if (ampersandPosition !== -1) {
+        videoId = videoId.substring(0, ampersandPosition);
+    }
+    var embedUrl = 'https://www.youtube.com/embed/' + videoId;
+    return embedUrl;
+  }
 
   function formatMoney(amount, currency = 'USD', locale = 'en-US') {
     const formatter = new Intl.NumberFormat(locale, {
@@ -123,6 +156,8 @@
 
     const formattedAmount = formatter.format(amount / 100);
     return formattedAmount;
+
+    
   }
 
   function updateUrlWithVariantId(id) {
@@ -140,7 +175,7 @@
 
     const current_variant = variants.find(variant => variant.id == id);
     const featured_image = current_variant.featured_image.src;
-    const filteredMedia = media.filter(item => item.alt == current_variant.featured_media.alt);
+    const filteredMedia = media.filter(item => item.alt == current_variant.featured_media.alt).concat(metas);
     console.log('filteredMedia:', filteredMedia)
     const imageBig = document.getElementById('thumbnail_big');
     const imageSmall = document.getElementById('thumbnail_small');
@@ -163,11 +198,21 @@
       const swiperSlide = document.createElement('div');
       swiperSlide.classList.add('swiper-slide');
 
-      const image = document.createElement('img');
-      image.src = media.src;
-      image.setAttribute('id', 'thumbnail_big');
+      if(media.media_type !== "image") {
+        const iframe = document.createElement('iframe');
+        iframe.src = convertToEmbedUrl(media.video);
+        iframe.width = '100%';
+        iframe.height = '100%';
+        iframe.frameborder = '0';
+        iframe.setAttribute('allowfullscreen', '');
+        swiperSlide.appendChild(iframe);
 
-      swiperSlide.appendChild(image);
+      } else {
+        const image = document.createElement('img');
+        image.src = media.src;
+        image.setAttribute('id', 'thumbnail_big');
+        swiperSlide.appendChild(image);
+      }
 
       swiperWrapper.appendChild(swiperSlide);
     });
@@ -178,12 +223,26 @@
 
     filteredMedia.forEach(media => {
 
-      const image = document.createElement('img');
-      image.src = media.src;
-      image.setAttribute('id', 'thumbnail_small');
+      if (media.media_type !== "image") {
+        const iframe = document.createElement('iframe');
+        iframe.src = `${convertToEmbedUrl(media.video)}?modestbranding=1&autohide=1&showinfo=0&controls=0`;
+        iframe.width = '75';
+        iframe.height = '100';
+        iframe.frameborder = '1';
+        iframe.setAttribute('id', 'thumbnail_small');
 
 
-      galleryImageWrapper.appendChild(image);
+        galleryImageWrapper.appendChild(iframe);
+    
+      } else {
+        const image = document.createElement('img');
+        image.src = media.src;
+        image.setAttribute('id', 'thumbnail_small');
+        galleryImageWrapper.appendChild(image);
+      }
+
+
+      
     });
 
     if (current_variant.compare_at_price !== null && current_variant.compare_at_price > current_variant.price) {
@@ -259,11 +318,17 @@
       scrollbar: {
         el: '.swiper-scrollbar',
       },
+      pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
     });
 
-    const galleryImages = document.querySelectorAll(".gallery img");
+    const galleryImages = document.querySelectorAll(".gallery > *");
+   
 
     galleryImages.forEach((image, index) => {
+      console.log(image)
       image.addEventListener("click", () => {
         swiper.slideTo(index);
       });
@@ -288,6 +353,7 @@
         swiper.slideTo(index);
       })
     });
+
 
   });
 
