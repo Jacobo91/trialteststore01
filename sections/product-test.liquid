@@ -1,0 +1,223 @@
+{{ 'product-test.css' | asset_url | stylesheet_tag }}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+<product-test>
+    <div class="product-test__container">
+        
+        <!-- Media -->
+        <div class="product-test__media">
+            <div class="product-test__media-wrapper">
+
+                <!-- Swiper -->
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        {% for media in product.media %}
+                        {% if media.alt == current_variant.featured_media.alt%}
+                        <div class="swiper-slide media-wrapper">
+                            {% case media.media_type %}
+                            {% when 'image' %}
+                                <img src="{{ media |  image_url: width: 1000}}" id="thumbnail_big">
+                            {% when 'video' %}
+                            <video controls>
+                                <source src="{{ media | video_url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            {% when 'external_video' %}
+                                <iframe src="https://www.youtube.com/embed/{{ media.external_id }}" frameborder="0" allowfullscreen ></iframe>
+                            {% when 'model' %}
+                            <model-viewer src="{{ media.model_url }}" alt="{{ media.alt }}" auto-rotate
+                                camera-controls></model-viewer>
+                            {% else %}
+                            <p>Media type '{{ media.media_type }}' is not supported.</p>
+                            {% endcase %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+    
+                    <!-- Navigation buttons -->
+                    <div class="swiper-button-prev"><span></span></div>
+                    <div class="swiper-button-next"><span></span></div>
+                </div>
+    
+                <!-- mini thumbnails gallery -->
+                <div class="mini-thumbnails-gallery mini-thumb-wrapper">
+                    {% for media in product.media %}
+                        {% if media.alt == current_variant.featured_media.alt %}
+                            {% case media.media_type %}
+                                {% when 'image' %}
+                                    <img src="{{ media |  image_url: width: 80  }}" alt="" class="mini-thumbnail">
+                                {% when 'video' %}
+                                    <video class="mini-thumbnail" controls>
+                                        <source src="{{ media | video_url }}" type="video/mp4" >
+                                        Your browser does not support the video tag.
+                                    </video>
+                                {% when 'external_video' %}
+                                    <div class="ext-video mini-thumbnail">
+                                        <iframe class="" src="https://www.youtube.com/embed/{{ media.external_id }}" frameborder="0" allowfullscreen ></iframe>
+                                        <div class="mask">s</div>    
+                                    </div>
+                                {% when 'model' %}
+                                    <model-viewer class="mini-thumbnail" src="{{ media.model_url }}" alt="{{ media.alt }}" auto-rotate
+                                        camera-controls></model-viewer>
+                                {% else %}
+                                    <p class="mini-thumbnail" >Media type '{{ media.media_type }}' is not supported.</p>
+                            {% endcase %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+        <!-- information -->
+        <div class="product-test__information">
+            <h1>{{ product.title }}</h1>
+
+            <div class="product-test__options">
+                {% if product.options and product.options.size > 0 %}
+                {% for option in product.options %}
+                {% case option %}
+                {% when 'Color' %}
+                <div class="product-test__color-options">
+                    <p>Color:</p>
+                    {% assign colorValues = product.options_by_name[option].values %}
+                    {% for color in colorValues %}
+                    {% assign current_color = color %}
+                    <label for="{{color}}-input" id="color-label">
+                        <input type="radio" value="{{ color }}" id="{{ color }}-input" name="color-input"
+                            data-colorInput="color-input" {% if current_variant.option1==color %} checked {% endif %}>
+                        <span class="radio-bg" style="background-color: {{ color }};"></span>
+                    </label>
+                    {% endfor %}
+                </div>
+                {% when 'Size' %}
+                <div class="product-test__size-options">
+                    <label for="size-selector">Size:</label>
+                    <select name="size-selector" id="size-selector">
+                        <option>Select One</option>
+                        {% assign sizeValues = product.options_by_name[option].values %}
+                        {% for size in sizeValues %}
+                        <option value="{{ size }}" {% if current_variant.option2==size %} selected {% endif %}>
+                            {{size}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% when 'Material' %}
+                <div class="product-test__material-options">
+                    <label for="material-selector">Material:</label>
+                    <select name="material-selector" id="material-selector">
+                        <option>Select One</option>
+                        {% assign materialValues = product.options_by_name[option].values %}
+                        {% for material in materialValues %}
+                        <option value="{{ material }}">{{material}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% else %}
+                <div class="product-test__style-options">
+                    <label for="style-selector">Material:</label>
+                    <select name="style-selector" id="style-selector">
+                        <option>Select One</option>
+                        {% assign styleValues = product.options_by_name[option].values %}
+                        {% for style in styleValues %}
+                        <option value="{{ style }}">{{style}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endcase %}
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <form action="/cart/add" method="post">
+                <input type="hidden" name="id" id="id" value="{{ current_variant.id }}"/>
+                <div>
+                    <p>Quantity:</p>
+                    <input min="1" type="number" id="quantity" name="quantity" value="1"/>
+                </div>
+                <input type="submit" value="Add to cart" class="btn">
+            </form>
+
+            <div class="product-test__feedback">
+                <p>
+                    <span>Color: <span id="product-test__feedback__color-feedback"></span></span>
+                    <span>Size: <span id="product-test__feedback__size-feedback"></span></span>
+                </p>
+            </div>
+
+            <div class="product-test__social-media">         
+                <p>Share:</p>
+                <ul>
+                    <li>
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-twitter"></i>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-pinterest-p"></i>
+                    </li>
+                </ul>          
+            </div>
+        </div>
+
+        <div class="product-test__video">
+            {% if product.metafields.custom.video != blank %}
+                {% assign videoUrl = product.metafields.custom.video.value %}
+                {% assign split_url = videoUrl | split: 'v=' %}
+                {% assign video_id_and_params = split_url[1] %}
+                {% assign split_params = video_id_and_params | split: '&' %}
+                {% assign video_id = split_params[0] %}
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" id="product-video" allowfullscreen></iframe>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="product-test__upsell">
+            <h2>Products you may like:</h2>
+            <div class="product-test__upsell-gallery">
+                {% if product.metafields.custom.upsell != blank%}
+                    {% assign items = product.metafields.custom.upsell.value %}
+                    {% for item in items %}
+                        <a href="{{ item.url }}" class="upsell-image-wrapper">
+                            <img src="{{ item |  image_url: width: 200  }}" alt="{{ item.title }}">
+                        </a>
+                    {% endfor %}
+                {% endif %} 
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</product-test>
+
+
+<script defer>
+
+    const productMedia = {{ product.media | json }}
+    const productVariants = {{ product.variants | json }}
+    const current_variant = {{ product.selected_or_first_available_variant | json }}
+
+    const swiper = new Swiper('.swiper', {
+
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        });
+
+</script>
+
+{{ 'product-test.js' | asset_url | script_tag }}
+
+
