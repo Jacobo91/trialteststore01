@@ -1,0 +1,271 @@
+:root {
+    --spacing: 10px;
+}
+
+h1,
+h2 {
+    margin-top: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.product-test__container {
+    display: grid;
+    place-items: center;
+    padding: 4rem 0;
+    gap: 20px;
+}
+
+.product-test__color-options {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: var(--spacing);
+    margin-bottom: var(--spacing);
+}
+
+#color-label {
+    position: relative;
+    display: flex;
+}
+
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid grey;
+    border-radius: 50%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.radio-bg {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+input[type="radio"]:checked {
+    border: 1px solid rgb(63, 111, 255);
+    transform: scale(1.2);
+}
+
+select {
+    cursor: pointer;
+}
+
+.swiper {
+    width: 100%;
+}
+
+.media-wrapper {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.media-wrapper > * {
+    width: 100%;
+    height: 100%;
+}
+
+.mini-thumb-wrapper {
+    width: 80px;
+    height: 106px;
+    object-fit: cover;
+}
+
+.mini-thumb-wrapper > * {
+    width: 100%;
+    height: 100%;
+}
+
+.ext-video {
+    width: 80px;
+    height: 106px;
+    object-fit: cover;
+    position: relative;
+}
+
+.ext-video > * {
+    width: 100%;
+    height: 100%;
+}
+
+.mask {
+    position: absolute;
+    content: '';
+    z-index: 100;
+    background-color: transparent;
+    color: transparent;
+    top: 0;
+}
+.product-test__media-wrapper {
+    width: 300px;
+}
+
+.mini-thumbnails-gallery {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing);
+    justify-content: center;
+    margin-top: var(--spacing);
+}
+
+
+.mini-thumbnails-gallery > *{
+    cursor: pointer;
+    max-width: 80px;
+    max-height: 106px;
+}
+
+.product-test__information {
+    text-align: center;
+    display: grid;
+    place-items: center;
+    gap: var(--spacing);
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+form {
+    display: grid;
+    gap: var(--spacing);
+}
+
+form p {
+    display: inline;
+}
+
+.btn {
+    background-color: rgb(0, 78, 60);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 1.2rem 0;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.product-test__social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-test__social-media p {
+    font-weight: bold;
+}
+
+ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+    margin-inline: var(--spacing);
+    cursor: pointer;
+    transition: transform ease-in-out 0.4s;
+}
+
+li:hover {
+    transform: scale(1.4);
+}
+
+
+
+.product-test__upsell {
+    align-self:center;
+    justify-content: center;
+}
+
+.upsell-image-wrapper {
+    object-fit: cover;
+}
+
+.upsell-image-wrapper img{
+    width: 100%;
+    height: 100%;
+}
+
+.product-test__upsell-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+}
+
+
+@media screen and (min-width: 425px) and (max-width: 900px) {
+    .video-container {
+        width: 420px;
+        height: 200px;
+    }
+
+}
+
+@media screen and (min-width: 625px) and (max-width: 900px) {
+    .video-container {
+        width: 620px;
+        height: 300px;
+    }
+
+}
+
+@media screen and (min-width: 900px ) {
+    .product-test__container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-test__media {
+        justify-self:last baseline;
+    }
+
+    .product-test__information {
+        align-self: flex-start;
+        justify-self: first baseline;
+        place-items: first baseline;
+    }
+
+    .product-test__video {
+        grid-column: span 2;
+
+    }
+
+    .product-test__upsell {
+        justify-self: center;
+        grid-column: span 2;
+    }
+
+    .product-test__upsell-gallery {
+        display: flex;
+    }
+
+    .video-container {
+        width: 800px;
+        height: 400px;
+    }
+
+}
