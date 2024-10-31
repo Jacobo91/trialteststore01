@@ -2,7 +2,7 @@
 {% assign product = product %}
 
 <div id="enhanced-product-card">
-    {% render 'enhanced-product-card-image' %}
+    {% render 'enhanced-product-card-image', images: product.featured_media %}
     <div class="enhanced-product-card__product-info">
         <h4>{{ product.title }}</h4>
     </div>
