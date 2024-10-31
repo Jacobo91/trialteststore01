@@ -10,17 +10,18 @@
     text-decoration: line-through;
 }
 </style>
-
-<a id="enhanced-product-card-{{ product.id }}" href="{{ product.url }}" class="enhanced-product-card">
-    {% render 'enhanced-product-card-image', product: product %}
-    <div class="enhanced-product-card__product-info">
-        <h4>{{ product.title }}</h4>
-        <span class="product-price">{{ product.price | money }}</span>
-        {%- if product.compare_at_price -%}
-            <span class="product-compared-at-price">{{ product.compare_at_price | money }}</span>
-        {%- endif -%}
-    </div>
+<div class="enhanced-product-card-wrapper">
+    <a id="enhanced-product-card-{{ product.id }}" href="{{ product.url }}" class="enhanced-product-card">
+        {% render 'enhanced-product-card-image', product: product %}
+        <div class="enhanced-product-card__product-info">
+            <h4>{{ product.title }}</h4>
+            <span class="product-price">{{ product.price | money }}</span>
+            {%- if product.compare_at_price -%}
+                <span class="product-compared-at-price">{{ product.compare_at_price | money }}</span>
+            {%- endif -%}
+        </div>
+    </a>
     <div class="product-atc">
         <p>Add to cart</p>
     </div>
-</a>
+</div>
