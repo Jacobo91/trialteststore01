@@ -1,10 +1,21 @@
 <style>
 .grid-for-products {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(section.settings.products_per_grid_mobile, 1fr);
     gap: 16px;
 }
 
+@media screen and (min-width: 480px) {
+    .grid-for-products {
+        grid-template-columns: repeat(section.settings.products_per_grid_mobile, 1fr);
+    }
+}
+
+@media screen and (min-width: 1023px) {
+    .grid-for-products {
+        grid-template-columns: repeat(section.settings.products_per_grid_mobile, 1fr);
+    }
+}
 
 </style>
 
@@ -30,6 +41,24 @@
                 "label": "Products by page",
                 "default": 10,
             },
+            {
+                "type": "number",
+                "id": "products_per_grid_mobile",
+                "label": "Products per grid mobile",
+                "default": 2
+            },
+            {
+                "type": "number",
+                "id": "products_per_grid_tablet",
+                "label": "Products per grid tablet",
+                "default": 3
+            },
+            {
+                "type": "number",
+                "id": "products_per_grid_desktop",
+                "label": "Products per grid desktop",
+                "default": 4
+            }
         ],
         "presets": [
             {
