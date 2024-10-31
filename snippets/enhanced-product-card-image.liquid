@@ -1,5 +1,9 @@
 {% assign images = images %}
 
 <div class="enhanced-product-card__image-wrapper">
-        
+        {%- if images.size > 1 -%}
+            <div></div>
+        {% else %}
+            <div></div>
+        {%- endif -%}
 </div>
