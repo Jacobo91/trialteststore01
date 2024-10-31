@@ -1,9 +1,4 @@
 <style>
-
-.enhanced-collection {
-    padding: 20px;
-}
-
 .grid-for-products {
     display: grid;
     grid-template-columns: repeat(var(--products-per-grid-mobile), 1fr);
@@ -24,7 +19,10 @@
 
 </style>
 
-<section id="enhanced-collection-{{ collection.id }}" class="enhanced-collection"> 
+<section 
+    id="enhanced-collection-{{ collection.id }}"
+    class="enhanced-collection"
+> 
     {% paginate collection.products by section.settings.pagination_number %}
         <div id="enhanced-collection__grid" 
             class="grid-for-products"
