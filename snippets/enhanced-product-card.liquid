@@ -3,13 +3,13 @@
 
 <style>
 #enhanced-product-card{
-    
+
 }
 </style>
 
-<div id="enhanced-product-card">
+<a id="enhanced-product-card-{{ product.id }}" href="{{ product.url }}">
     {% render 'enhanced-product-card-image', product: product %}
     <div class="enhanced-product-card__product-info">
         <h4>{{ product.title }}</h4>
     </div>
-</div>
+</a>
