@@ -2,12 +2,12 @@
 {% assign product = product %}
 
 <style>
-#enhanced-product-card{
-
+.enhanced-product-card{
+    cursor: pointer;
 }
 </style>
 
-<a id="enhanced-product-card-{{ product.id }}" href="{{ product.url }}">
+<a id="enhanced-product-card-{{ product.id }}" href="{{ product.url }}" class="enhanced-product-card">
     {% render 'enhanced-product-card-image', product: product %}
     <div class="enhanced-product-card__product-info">
         <h4>{{ product.title }}</h4>
