@@ -2,9 +2,7 @@
 {% assign product = product %}
 
 <div id="enhanced-product-card">
-    <div class="enhanced-product-card__image-wrapper">
-
-    </div>
+    {% render 'enhanced-product-card-image' %}
     <div class="enhanced-product-card__product-info">
         <h4>{{ product.title }}</h4>
     </div>
