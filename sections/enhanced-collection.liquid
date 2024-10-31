@@ -1,19 +1,19 @@
 <style>
 .grid-for-products {
     display: grid;
-    grid-template-columns: repeat(section.settings.products_per_grid_mobile, 1fr);
+    grid-template-columns: repeat(var(--products-per-grid-mobile), 1fr);
     gap: 16px;
 }
 
 @media screen and (min-width: 480px) {
     .grid-for-products {
-        grid-template-columns: repeat(section.settings.products_per_grid_tablet, 1fr);
+        grid-template-columns: repeat(var(--products-per-grid-tablet), 1fr);
     }
 }
 
 @media screen and (min-width: 1023px) {
     .grid-for-products {
-        grid-template-columns: repeat(section.settings.products_per_grid_desktop, 1fr);
+        grid-template-columns: repeat(var(--products-per-grid-desktop), 1fr);
     }
 }
 
@@ -21,7 +21,14 @@
 
 <section id="enhanced-collection"> 
     {% paginate collection.products by section.settings.pagination_number %}
-        <div id="enhanced-collection__grid" class="grid-for-products">
+        <div id="enhanced-collection__grid" 
+            class="grid-for-products"
+            style="
+                --products-per-grid-mobile: {{ section.settings.products_per_grid_mobile }};
+                --products-per-grid-tablet: {{ section.settings.products_per_grid_tablet }};
+                --products-per-grid-desktop: {{ section.settings.products_per_grid_desktop }};
+            "
+        >
         {% for product in collection.products %}
                 {% render 'enhanced-product-card',
                         product: product,
