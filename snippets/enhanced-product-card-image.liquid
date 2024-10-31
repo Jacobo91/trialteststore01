@@ -1,9 +1,9 @@
-{% assign images = images %}
+{% assign product = product %}
 
 <div class="enhanced-product-card__image-wrapper">
-        {%- if images.size > 1 -%}
+        {%- if product.featured_media.size > 1 -%}
             <div></div>
         {% else %}
-            <div></div>
+            <img src="images[1]" alt="{{ product.title }}">
         {%- endif -%}
 </div>
