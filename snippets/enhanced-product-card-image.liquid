@@ -3,7 +3,7 @@
 
 <div class="enhanced-product-card__image-wrapper">
         {%- if images.size > 1 -%}
-            <img src="images[1]" alt="{{ product.title }}">
+            <img src="{{ images[1] | image_url }}" alt="{{ product.title }}">
         {% else %}
             <img src="images[1]" alt="{{ product.title }}">
         {%- endif -%}
