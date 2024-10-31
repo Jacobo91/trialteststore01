@@ -6,17 +6,14 @@
         position: relative;
         width: 100%; /* Adjust width as needed */
     }
-    
     .image-stack {
         position: relative;
     }
-    
     .image {
         display: block;
         width: 100%;
         transition: opacity 0.3s ease;
     }
-    
     /* Image 0 is on top of image 1 */
     .image-main {
         position: absolute;
@@ -25,17 +22,14 @@
         opacity: 1;
         z-index: 2;
     }
-    
     /* Hover effect to reveal image 1 */
     .image-stack:hover .image-main {
         opacity: 0;
     }
-    
     .image-hover {
         position: relative;
         z-index: 1;
     }
-    
 </style>
 
 <div class="enhanced-product-card__image-wrapper">
