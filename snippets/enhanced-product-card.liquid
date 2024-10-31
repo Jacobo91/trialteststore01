@@ -12,9 +12,9 @@
     {% render 'enhanced-product-card-image', product: product %}
     <div class="enhanced-product-card__product-info">
         <h4>{{ product.title }}</h4>
-        <span>{{ product.price | money }}</span>
+        <span class="product-price">{{ product.price | money }}</span>
         {%- if product.compare_at_price -%}
-            <span>{{ product.compare_at_price | money }}</span>
+            <span class="product-compared-at-price">{{ product.compare_at_price | money }}</span>
         {%- endif -%}
     </div>
 </a>
