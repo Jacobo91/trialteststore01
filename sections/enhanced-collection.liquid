@@ -1,0 +1,31 @@
+<section id="enhanced-collection"> 
+    {% paginate collection.products by section.settings.pagination_number %}
+        <div id="enhanced-collection__grid" class="">
+        {% for product in collection.products %}
+                {% render 'enhanced-product-card',
+                        product: product,
+                %}
+        {% endfor %}
+        </div>
+    {% endpaginate %}
+</section>
+
+{% schema %}
+    {
+        "name": "Enhanced Collection",
+        "settings": [
+            {
+                "type": "number",
+                "id": "pagination_number",
+                "label": "Products by page",
+                "default": 10,
+            },
+        ],
+        "presets": [
+            {
+                "name": "Enhanced Collection",
+                "category": "Custom"
+            }
+        ]
+    }
+{% endschema %}
