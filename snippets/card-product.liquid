@@ -140,7 +140,13 @@
       </div>
       <div class="card__content">
         <div class="card__information">
-          <button id="quick-view-button" style="z-index: 99; position: relative; cursor: pointer">Quick View</button>
+          <button 
+            class="quick-view-button" 
+            style="z-index: 99; position: relative; cursor: pointer"
+            data-product-handle="{{ card_product.handle }}"
+          >
+            Quick View
+          </button>
           <h3
             class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
             {% if card_product.featured_media or settings.card_style == 'card' %}
