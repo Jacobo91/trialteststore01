@@ -1,6 +1,12 @@
 <div data-section="{{ section.id }}" id="quick-view-modal" class="quick-view-modal hide-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
     <div class="quick-view-modal_wrapper">
         <h1 id="modal-title">{{ product.title }}</h1>
+        <div>
+           <img src="{{ product.featured_image | img_url: width: '800x' }}" />
+        </div>
+        <div>
+            <p>{{ product.price | money }}</p>
+        </div>
     </div>
 </div>
 
