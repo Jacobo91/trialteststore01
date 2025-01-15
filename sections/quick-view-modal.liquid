@@ -1,29 +1,4 @@
-<style>
-    .quick-view-modal {
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-    }
-    .quick-view-modal_wrapper {
-        width: 40%;
-        height: auto;
-        max-height: 80%;
-        background-color: #FFF;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-        overflow-y: auto;
-        border-radius: 8px;
-    }
-</style>
-
-<div id="quick-view-modal" class="quick-view-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true" style="display: none;">
+<div data-section="{{ section.id }}" id="quick-view-modal" class="quick-view-modal hide-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
     <div class="quick-view-modal_wrapper">
         <h1 id="modal-title">{{ product.title }}</h1>
     </div>
