@@ -6,11 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchData = async (url) => {
         console.log('fetching data with url:', url);
         try {
+            
+            setLoadingState();
+
             const response = await fetch(url);
             const responseText = await response.text();
             renderSection(responseText);
         } catch (error) {
-            
+            console.error('Error fetching data:', error);
         }
     };
 
@@ -22,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('new html is:', newHTML);
 
         document.getElementById('quick-view-modal').innerHTML = newHTML;
+    };
+
+    const setLoadingState = () => {
+        // Clear current content and add a loading indicator
+        document.getElementById('quick-view-modal').innerHTML = `
+            <div class="loading-indicator">
+                <p>Loading...</p>
+            </div>`;
     };
 
     quickViewButtons.forEach(quickViewButton => {
