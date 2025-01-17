@@ -1,11 +1,53 @@
 <div data-section="{{ section.id }}" id="quick-view-modal" class="quick-view-modal hide-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
     <div class="quick-view-modal_wrapper">
-        <h1 id="modal-title">{{ product.title }}</h1>
-        <div>
-           <img src="{{ product.featured_image | img_url: width: '800x' }}" />
-        </div>
-        <div>
-            <p>{{ product.price | money }}</p>
+        <div class="product-content">
+            <!-- product carousel -->
+            <div class="swiper product-content_media">
+                <!-- Swiper wrapper -->
+                <div class="swiper-wrapper">
+                    {% for media in product.media %}
+                        <div class="swiper-slide media-wrapper">
+                            {% case media.media_type %}
+                            {% when 'image' %}
+                                <img src="{{ media |  image_url: width: 1000}}" id="thumbnail_big">
+                            {% when 'video' %}
+                            <video controls>
+                                <source src="{{ media | video_url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            {% when 'external_video' %}
+                                <iframe src="https://www.youtube.com/embed/{{ media.external_id }}" frameborder="0" allowfullscreen ></iframe>
+                            {% when 'model' %}
+                            <model-viewer src="{{ media.model_url }}" alt="{{ media.alt }}" auto-rotate
+                                camera-controls></model-viewer>
+                            {% else %}
+                            <p>Media type '{{ media.media_type }}' is not supported.</p>
+                            {% endcase %}
+                        </div>
+                        {% endfor %}
+                </div>
+    
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+    
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+    
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+            <!-- product price -->
+            <div class="product-content_info">
+                <!-- product title -->
+                <h3 id="modal-title">{{ product.title }}</h3>
+                <p>{{ product.description }}</p>
+                <p>{{ product.price | money }}</p>
+                <form method="post" action="/cart/add">
+                    <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                    <input type="submit" value="Add to cart" class="btn" />
+                </form>
+            </div>
         </div>
     </div>
 </div>

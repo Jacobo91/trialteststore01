@@ -4,9 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const quickViewModal = document.querySelector('#quick-view-modal');
 
     const fetchData = async (url) => {
-        console.log('fetching data with url:', url);
         try {
-            
             setLoadingState();
 
             const response = await fetch(url);
@@ -22,9 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .parseFromString(html, 'text/html')
             .getElementById('quick-view-modal').innerHTML;
 
-        console.log('new html is:', newHTML);
-
         document.getElementById('quick-view-modal').innerHTML = newHTML;
+
+        // Reinitialize Swiper after content update
+        initializeSwiper();
     };
 
     const setLoadingState = () => {
@@ -39,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         quickViewButton.addEventListener('click', (event) => {
             const productHandle = event.target.getAttribute('data-product-handle');
             const productEndpoint = `${window.Shopify.routes.root}products/${productHandle}?section_id=${sectionId}`;
-            console.log('clicking');
-            console.log('product url is:', productEndpoint);
             fetchData(productEndpoint);
             if (quickViewModal.classList.contains('hide-modal')) {
                 quickViewModal.classList.remove('hide-modal');
@@ -55,4 +52,28 @@ document.addEventListener('DOMContentLoaded', () => {
             event.target.classList.add('hide-modal');
         }
     });
+
+    const initializeSwiper = () => {
+        // Check if Swiper exists and clean up any previous instance if necessary
+        if (document.querySelector('.swiper')) {
+            new Swiper('.swiper', {
+                direction: 'horizontal',
+                loop: false,
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                },
+            });
+        }
+    };
+
+    // Initialize Swiper on page load for any pre-rendered content
+    initializeSwiper();
 });
+
