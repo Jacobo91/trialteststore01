@@ -6,6 +6,8 @@
         --title-font-size-desktop: {{ section.settings.title_desktop }}px;
         --subtitle-font-size-mobile: {{ section.settings.subtitle_mobile }}px;
         --subtitletitle-font-size-desktop: {{ section.settings.subtitle_desktop }}px;
+        --card-infotitle-font-size-mobile: {{ section.settings.card_title_mobile }}px;
+        --card-info-title-font-size-desktop: {{ section.settings.card_title_desktop }}px
     }
 
     .title {
@@ -18,12 +20,20 @@
         font-size: var(--subtitle-font-size-mobile);
     }
 
+    .custom-img-text__info h2 {
+        font-family: var(--font-family-first);
+        font-size: var( --card-infotitle-font-size-mobile);
+    }
+
     @media screen and (min-width: 480px) {
         .title {
             font-size: var(--title-font-size-desktop);
         }
         .subtitle {
             font-size: var(--subtitletitle-font-size-desktop);
+        }
+        .custom-img-text__info h2 {
+            font-size: var(--card-info-title-font-size-desktop);
         }
     }
 </style>
@@ -129,6 +139,24 @@
             "default": "when we say 'signed,' off we mean it's...",
             "info": "use for setting the card info title",
             "placeholder": "when we say 'signed,' off we mean it's..."
+        },
+        {
+            "type": "range",
+            "id": "card_title_mobile",
+            "label": "card title mobile font size",
+            "default": 16,
+            "info": "use to set mobile font size for card title",
+            "min": 8,
+            "max": 100
+        },
+        {
+            "type": "range",
+            "id": "card_title_desktop",
+            "label": "card title desktop font size",
+            "default": 24,
+            "info": "use to set desktop font size for card title",
+            "min": 8,
+            "max": 100
         },
         {
             "type": "color",
