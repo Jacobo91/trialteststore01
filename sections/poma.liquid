@@ -2,10 +2,10 @@
     :root {
         --font-family-first: "helvetica";
         --font-family-second: "helvetica";
-        --title-font-size-mobile: "{{ section.settings.title_mobile }}px";
-        --title-font-size-desktop: "{{ section.settings.title_desktop }}px";
-        --subtitle-font-size-mobile: "{{ section.settings.subtitle_mobile }}px";
-        --subtitletitle-font-size-desktop: "{{ section.settings.subtitle_desktop }}px";
+        --title-font-size-mobile: {{ section.settings.title_mobile }}px;
+        --title-font-size-desktop: {{ section.settings.title_desktop }}px;
+        --subtitle-font-size-mobile: {{ section.settings.subtitle_mobile }}px;
+        --subtitletitle-font-size-desktop: {{ section.settings.subtitle_desktop }}px;
     }
 
     .title {
@@ -18,7 +18,7 @@
         font-size: var(--subtitle-font-size-mobile);
     }
 
-    @media screen (min-width: 480px) {
+    @media screen and (min-width: 480px) {
         .title {
             font-size: var(--title-font-size-desktop);
         }
