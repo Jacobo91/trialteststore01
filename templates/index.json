@@ -82,8 +82,9 @@
       "settings": {
         "title": "our philosophy",
         "suntitle": "signed, sealed, derm-approved",
+        "video_url": "https://www.youtube.com/watch?v=u99w8PiHcEk",
         "card_info_title": "when we say 'signed,' off we mean it's...",
-        "bg_color": "#FFFADD"
+        "bg_color": "#fffadd"
       }
     }
   },
