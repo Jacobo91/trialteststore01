@@ -1,0 +1,118 @@
+<style>
+    :root {
+        --font-size-first: "helvetica";
+        --font-family-second: "sans";
+    }
+</style>
+
+<section id="section-{{ section.id }}" class="custom-img-text">
+    <div class="custom-img-text__header">
+        <span class="title">{{ section.settings.title }}</span>
+        <h2 class="subtitle">{{ section.settings.subtitle }}</h2>
+    </div>
+
+    <div class="custom-img-text__image">
+        <div class="image-wrapper">
+            <img src="{{ section.setting.image | image_url: width: 'master' }}" alt="card_image">
+        </div>
+    </div>
+
+    <div class="custom-img-text__info">
+        <h2>{{ section.settings.card_info_title }}</h2>
+        {% for block in section.blocks %}
+            <div class="value-prop">
+                <div class="image-wrapper icon">
+                    <img src="{{ block.settings.value_prop_img | image_url: width: 'small' }}"alt="icon-display">
+                </div>
+                <p>
+                    {{ block.settings.value_prop_text }}
+                </p>
+                <a href="{{ block.settings.url }}">
+                    {{ block.settings.btn_text }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% schema %}
+  {
+    "name": "poma",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "title",
+            "default": "our philosophy",
+            "info": "use for setting the section title",
+            "placeholder": "our philosophy"
+        },
+        {
+            "type": "text",
+            "id": "suntitle",
+            "label": "subtitle",
+            "default": "signed, sealed, derm-approved",
+            "info": "use for setting the section subtitle",
+            "placeholder": "use for setting the section subtitle"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "select an image to display"
+        },
+        {
+            "type": "text",
+            "id": "card_info_title",
+            "label": "card info title",
+            "default": "when we say 'signed,' off we mean it's...",
+            "info": "use for setting the card info title",
+            "placeholder": "when we say 'signed,' off we mean it's..."
+        },
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "background_color",
+            "default": "#FFFADD",
+            "info": "use to set card info section background color"
+        },
+    ],
+    "blocks": [
+        {
+            "type": "value_prop",
+            "name": "value prop",
+            "limit": 3,
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "value_prop_img",
+                    "label": "value prop image"
+                },
+                {
+                    "type": "richtext",
+                    "id": "value_prop_text",
+                    "label": "value prop text"
+                },
+                {
+                    "type": "text",
+                    "id": "btn_text",
+                    "label": "button text",
+                    "default": "learn more",
+                    "info": "use to set the button text",
+                    "placeholder": "learn more"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "learn more url",
+                    "info": "use to set the url to redirect to"
+                },
+            ]
+        }
+    ],
+    "presets": [
+      {
+        "name": "poma"
+      }
+    ]
+  }
+{% endschema %}
