@@ -54,9 +54,20 @@
         }
         .wrapper {
             width: fit-content;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             background: {{ section.settings.bg_color }};
             padding-block: var(--wrapper-padding-desktop-block);
             padding-inline: var(--wrapper-padding-desktop-inline);
+        }
+        .custom-img-text__header {
+            flex-basis: 100%;
+            text-align: center;
+        }
+        .custom-img-text__image,
+        .custom-img-text__info {
+            flex-basis: 50%;
         }
         .title {
             font-size: var(--title-font-size-desktop);
