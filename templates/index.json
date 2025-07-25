@@ -81,7 +81,11 @@
       "name": "poma",
       "settings": {
         "title": "our philosophy",
-        "suntitle": "signed, sealed, derm-approved",
+        "title_mobile": 16,
+        "title_desktop": 60,
+        "subtitle": "signed, sealed, derm-approved",
+        "subtitle_mobile": 16,
+        "subtitle_desktop": 24,
         "video_url": "https://www.youtube.com/watch?v=u99w8PiHcEk",
         "card_info_title": "when we say 'signed,' off we mean it's...",
         "bg_color": "#fffadd"
