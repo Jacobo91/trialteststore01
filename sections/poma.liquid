@@ -8,14 +8,16 @@
         --subtitletitle-font-size-desktop: {{ section.settings.subtitle_desktop }}px;
         --card-infotitle-font-size-mobile: {{ section.settings.card_title_mobile }}px;
         --card-info-title-font-size-desktop: {{ section.settings.card_title_desktop }}px;
-        --section-padding-mobile-block: {{ section.settings.padding_block_mob }}px;
-        --section-padding-mobile-inline: {{ section.settings.padding_inline_mob }}px;
-        --section-padding-desktop-block: {{ section.settings.padding_block_desk }}px;
-        --section-padding-desktop-inline: {{ section.settings.padding_inline_desk }}px;
+        --section-margin-mobile-block: {{ section.settings.margin_block_mob }}px;
+        --section-margin-mobile-inline: {{ section.settings.margin_inline_mob }}px;
+        --section-margin-desktop-block: {{ section.settings.margin_block_desk }}px;
+        --section-margin-desktop-inline: {{ section.settings.margin_inline_desk }}px;
     }
 
     .custom-img-text {
-        background: {{ section.settings.bg_color }}
+        background: {{ section.settings.bg_color }};
+        margin-block: var(--section-margin-mobile-block);
+        margin-inline: var(--section-margin-mobile-inline);
     }
 
     .title {
@@ -34,6 +36,10 @@
     }
 
     @media screen and (min-width: 480px) {
+        .custom-img-text {
+            margin-block: var(--section-margin-desktop-block);
+            margin-inline: var(--section-margin-desktop-inline);
+        }
         .title {
             font-size: var(--title-font-size-desktop);
         }
@@ -84,36 +90,36 @@
     "settings": [
         {
             "type": "range",
-            "id": "padding_block_mob",
+            "id": "margin_block_mob",
             "min": 0,
             "max": 100,
             "step": 1,
-            "label": "section vertical padding mobile",
+            "label": "section vertical margin mobile",
             "default": 20
         },
         {
             "type": "range",
-            "id": "padding_inline_mob",
+            "id": "margin_inline_mob",
             "min": 0,
             "max": 100,
             "step": 1,
-            "label": "section horizontal padding mobile",
+            "label": "section horizontal margin mobile",
             "default": 20
         },
         {
             "type": "range",
-            "id": "padding_block_desk",
+            "id": "margin_block_desk",
             "min": 0,
             "max": 100,
-            "label": "section vertical padding desktop",
+            "label": "section vertical margin desktop",
             "default": 40
         },
         {
             "type": "range",
-            "id": "padding_inline_desk",
+            "id": "margin_inline_desk",
             "min": 0,
             "max": 100,
-            "label": "section horizontal padding desktop",
+            "label": "section horizontal margin desktop",
             "default": 40
         },
         {
