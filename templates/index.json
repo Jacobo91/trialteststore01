@@ -80,6 +80,14 @@
       "type": "poma",
       "name": "poma",
       "settings": {
+        "margin_block_mob": 20,
+        "margin_inline_mob": 20,
+        "margin_block_desk": 40,
+        "margin_inline_desk": 100,
+        "w_padding_block_mob": 40,
+        "w_padding_inline_mob": 20,
+        "w_padding_block_desk": 40,
+        "w_padding_inline_desk": 20,
         "title": "our philosophy",
         "title_mobile": 16,
         "title_desktop": 60,
@@ -88,6 +96,8 @@
         "subtitle_desktop": 24,
         "video_url": "https://www.youtube.com/watch?v=u99w8PiHcEk",
         "card_info_title": "when we say 'signed,' off we mean it's...",
+        "card_title_mobile": 16,
+        "card_title_desktop": 24,
         "bg_color": "#fffadd"
       }
     }
