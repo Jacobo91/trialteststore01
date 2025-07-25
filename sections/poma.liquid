@@ -2,6 +2,29 @@
     :root {
         --font-size-first: "helvetica";
         --font-family-second: "sans";
+        --title-font-size-mobile: {{ section.settings.title_mobile }};
+        --title-font-size-desktop: {{ section.settings.title_desktop }};
+        --subtitle-font-size-mobile: {{ section.settings.subtitle_mobile }};
+        --subtitletitle-font-size-desktop: {{ section.settings.subtitle_desktop }};
+    }
+
+    .title {
+        font-family: var(--font-size-first);
+        font-size: var(--title-font-size-mobile);
+    }
+
+    .subtitle {
+        font-family: var(--font-size-second);
+        font-size: var(--subtitle-font-size-mobile);
+    }
+
+    @media screen (min-width: 480px) {
+        .title {
+            font-size: var(--title-font-size-desktop);
+        }
+        .subtitle {
+            font-size: var(--subtitletitle-font-size-desktop);
+        }
     }
 </style>
 
@@ -50,12 +73,48 @@
             "placeholder": "our philosophy"
         },
         {
+            "type": "range",
+            "id": "title_mobile",
+            "label": "title mobile font size",
+            "default": 16,
+            "info": "use to set mobile font size for title",
+            "min": 8,
+            "max": 100
+        },
+        {
+            "type": "range",
+            "id": "title_desktop",
+            "label": "title mobile font size",
+            "default": 24,
+            "info": "use to set desktop font size for title",
+            "min": 8,
+            "max": 100
+        },
+        {
             "type": "text",
             "id": "subtitle",
             "label": "subtitle",
             "default": "signed, sealed, derm-approved",
             "info": "use for setting the section subtitle",
             "placeholder": "use for setting the section subtitle"
+        },
+        {
+            "type": "range",
+            "id": "subtitle_mobile",
+            "label": "title mobile font size",
+            "default": 16,
+            "info": "use to set mobile font size for subtitle",
+            "min": 8,
+            "max": 100
+        },
+        {
+            "type": "range",
+            "id": "subtitle_desktop",
+            "label": "title mobile font size",
+            "default": 24,
+            "info": "use to set desktop font size for subtitle",
+            "min": 8,
+            "max": 100
         },
         {
             "type": "url",
