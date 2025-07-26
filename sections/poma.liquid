@@ -65,6 +65,20 @@
         width: 100%;
     }
 
+    .value-prop {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .value-prop h5 {
+        margin-block: 10px;
+    }
+
+    .value-prop p {
+        margin-block: 8px;
+    }
+
     @media screen and (min-width: 680px) {
         .custom-img-text {
             margin-block: var(--section-margin-desktop-block);
@@ -121,12 +135,14 @@
                     <div class="image-wrapper icon">
                         <img src="{{ block.settings.value_prop_img | image_url: width: 'small' }}"alt="icon-display">
                     </div>
-                    <h5>
-                        {{ block.settings.value_prop_title }}
-                    </h5>
-                    <p>
-                        {{ block.settings.value_prop_text }}
-                    </p>
+                    <div class="value-prop__info">
+                        <h5>
+                            {{ block.settings.value_prop_title }}
+                        </h5>
+                        <p>
+                            {{ block.settings.value_prop_text }}
+                        </p>
+                    </div>
                 </div>
             {% endfor %}
             <a href="{{ section.settings.url }}">
@@ -355,7 +371,7 @@
                     "label": "value prop title"
                 },
                 {
-                    "type": "richtext",
+                    "type": "text",
                     "id": "value_prop_text",
                     "label": "value prop text"
                 }
