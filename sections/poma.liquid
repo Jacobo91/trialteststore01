@@ -124,11 +124,11 @@
                     <p>
                         {{ block.settings.value_prop_text }}
                     </p>
-                    <a href="{{ block.settings.url }}">
-                        {{ block.settings.btn_text }}
-                    </a>
                 </div>
             {% endfor %}
+            <a href="{{ section.settings.url }}">
+                {{ section.settings.btn_text }}
+            </a>
         </div>
     </div>
 </section>
@@ -319,7 +319,21 @@
             "label": "background_color",
             "default": "#FFFADD",
             "info": "use to set card info section background color"
-        }
+        },
+        {
+            "type": "text",
+            "id": "btn_text",
+            "label": "button text",
+            "default": "learn more",
+            "info": "use to set the button text",
+            "placeholder": "learn more"
+        },
+        {
+            "type": "url",
+            "id": "url",
+            "label": "learn more url",
+            "info": "use to set the url to redirect to"
+        },
     ],
     "blocks": [
         {
@@ -336,21 +350,7 @@
                     "type": "richtext",
                     "id": "value_prop_text",
                     "label": "value prop text"
-                },
-                {
-                    "type": "text",
-                    "id": "btn_text",
-                    "label": "button text",
-                    "default": "learn more",
-                    "info": "use to set the button text",
-                    "placeholder": "learn more"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "learn more url",
-                    "info": "use to set the url to redirect to"
-                },
+                }
             ]
         }
     ],
