@@ -114,6 +114,19 @@
         width: fit-content;
     }
 
+      .custom-play-pause {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
     @media screen and (min-width: 1024px) {
         .custom-img-text {
             margin-block: var(--section-margin-desktop-block);
@@ -165,10 +178,13 @@
         </div>
     
         <div class="custom-img-text__image">
-            <div class="video-wrapper">
-                <video controls>
-                    <source src="{{ section.settings.video_url }}" type="video/mp4">
-                </video>
+            <div class="video-wrapper" style="position: relative;">
+                {% assign video_meta = shop.metaobjects.video["video-kpgeg7ya"] %}
+                {% assign poster_image = value %}
+                {% if video_meta != blank and video_meta.video != blank %}
+                {{ video_meta.video | media_tag: autoplay: false, controls: false, poster: poster_image| image_url: width: 800 }}
+                <button type="button" class="custom-play-pause">Play</button>
+                {% endif %}
             </div>
         </div>
     
@@ -196,10 +212,35 @@
     </div>
 </section>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('.video-wrapper video');
+    const btn = document.querySelector('.custom-play-pause');
+
+    if(video && btn) {
+      btn.addEventListener('click', function() {
+        if (video.paused) {
+          video.play();
+          btn.textContent = 'Pause';
+        } else {
+          video.pause();
+          btn.textContent = 'Play';
+        }
+      });
+    }
+  });
+</script>
+
+
 {% schema %}
   {
     "name": "poma",
     "settings": [
+        {
+            "type": "image_picker",
+            "id": "poster_image",
+            "label": "video poster image"
+        },
         {
             "type": "number",
             "id": "max_width",
