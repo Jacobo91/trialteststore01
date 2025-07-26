@@ -2,7 +2,7 @@
     :root {
 
         /* control max width of the section */
-        --max-width: {{ section.settings.max_width }}px;
+        --max-width: {{ section.settings.max_width }};
 
         --font-family-first: "helvetica";
         --font-family-second: "helvetica";
@@ -191,10 +191,10 @@
     "name": "poma",
     "settings": [
         {
-            "type": "text",
+            "type": "number",
             "id": "max_width",
             "label": "section max width",
-            "default": "1036",
+            "default": 1036
         },
         {
             "type": "range",
