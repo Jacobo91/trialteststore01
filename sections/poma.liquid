@@ -24,6 +24,9 @@
         /* gaps between title and card and video and info */
         --row-gap: {{ section.settings.row_gap }}px;
         --column-gap: {{ section.settings.column_gap }}px;
+
+        /* background color */
+        --gb-color: {{ section.settings.bg_color }};
     }
 
     .custom-img-text {
@@ -36,7 +39,7 @@
     .wrapper {
         max-width: var(--max-width);
         width: fit-content;
-        background: {{ section.settings.bg_color }};
+        background: var(--gb-color);
         padding-block: var(--wrapper-padding-mobile-block);
         padding-inline: var(--wrapper-padding-mobile-inline);
         display: flex;
@@ -108,14 +111,19 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
-            background: {{ section.settings.bg_color }};
-            padding-block: var(--wrapper-padding-desktop-block);
-            padding-inline: var(--wrapper-padding-desktop-inline);
             align-items: center;
+            background: transparent;
+            padding: 0;
         }
         .custom-img-text__header {
             flex-basis: 100%;
             text-align: center;
+        }
+        .custom-img-text__info {
+            background: var(--gb-color);
+            border-radius: 4px;
+            padding-block: var(--wrapper-padding-desktop-block);
+            padding-inline: var(--wrapper-padding-desktop-inline);
         }
         .custom-img-text__image,
         .custom-img-text__info {
@@ -186,7 +194,7 @@
             "type": "text",
             "id": "max_width",
             "label": "section max width",
-            "default": "800",
+            "default": "1036",
         },
         {
             "type": "range",
