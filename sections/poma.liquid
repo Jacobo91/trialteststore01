@@ -1,5 +1,9 @@
 <style>
     :root {
+
+        /* control max width of the section */
+        --max-width: {{ section.settings.max_width }}px;
+
         --font-family-first: "helvetica";
         --font-family-second: "helvetica";
         --title-font-size-mobile: {{ section.settings.title_mobile }}px;
@@ -30,6 +34,7 @@
     }
     
     .wrapper {
+        max-width: var(--max-width);
         width: fit-content;
         background: {{ section.settings.bg_color }};
         padding-block: var(--wrapper-padding-mobile-block);
@@ -132,6 +137,12 @@
   {
     "name": "poma",
     "settings": [
+        {
+            "type": "text",
+            "id": "max_width",
+            "label": "section max width",
+            "default": "800",
+        },
         {
             "type": "range",
             "id": "margin_block_mob",
