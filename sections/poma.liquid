@@ -121,6 +121,9 @@
                     <div class="image-wrapper icon">
                         <img src="{{ block.settings.value_prop_img | image_url: width: 'small' }}"alt="icon-display">
                     </div>
+                    <h5>
+                        {{ block.settings.value_prop_title }}
+                    </h5>
                     <p>
                         {{ block.settings.value_prop_text }}
                     </p>
@@ -345,6 +348,11 @@
                     "type": "image_picker",
                     "id": "value_prop_img",
                     "label": "value prop image"
+                },
+                {
+                    "type": "text",
+                    "id": "value_prop_title",
+                    "label": "value prop title"
                 },
                 {
                     "type": "richtext",
