@@ -16,6 +16,10 @@
         --wrapper-padding-mobile-inline: {{ section.settings.w_padding_inline_mob }}px;
         --wrapper-padding-desktop-block: {{ section.settings.w_padding_block_desk }}px;
         --wrapper-padding-desktop-inline: {{ section.settings.w_padding_inline_desk }}px;
+
+        /* gaps between title and card and video and info */
+        --row-gap: {{ section.settings.row_gap }}px;
+        --column-gap: {{ section.settings.column_gap }}px;
     }
 
     .custom-img-text {
@@ -30,17 +34,21 @@
         background: {{ section.settings.bg_color }};
         padding-block: var(--wrapper-padding-mobile-block);
         padding-inline: var(--wrapper-padding-mobile-inline);
+        row-gap: var(--row-gap);
+        column-gap: var(--column-gap);
     }
 
     .title {
         font-family: var(--font-family-first);
         font-size: var(--title-font-size-mobile);
+        display: inline-block;
+        margin: 0; /* ccambie segun el figma */
     }
 
     .subtitle {
         font-family: var(--font-family-second);
         font-size: var(--subtitle-font-size-mobile);
-        margin-block: 8px; /* ccambie segun el figma */
+        margin-block: 0; /* ccambie segun el figma */
     }
 
     .custom-img-text__info h2 {
@@ -72,7 +80,7 @@
         }
         .custom-img-text__image,
         .custom-img-text__info {
-            flex-basis: 50%;
+            flex-basis: calc(50% - var(--column-gap));
         }
         .title {
             font-size: var(--title-font-size-desktop);
@@ -245,6 +253,22 @@
             "info": "use to set desktop font size for subtitle",
             "min": 8,
             "max": 100
+        },
+        {
+            "type": "range",
+            "id": "row_gap",
+            "min": 0,
+            "max": 50,
+            "label": "gap between header and card",
+            "default": 20
+        },
+        {
+            "type": "range",
+            "id": "column_gap",
+            "min": 0,
+            "max": 50,
+            "label": "gap between video and info column",
+            "default": 20
         },
         {
             "type": "url",
