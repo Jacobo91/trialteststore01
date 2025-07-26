@@ -84,7 +84,7 @@
           "settings": {
             "value_prop_img": "shopify://shop_images/coin_1007991.png",
             "value_prop_title": "barrier friendly formula",
-            "value_prop_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique neque quis mi auctor efficitur. Proin venenatis.</p>"
+            "value_prop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique neque quis mi auctor efficitur. Proin venenatis."
           }
         }
       },
