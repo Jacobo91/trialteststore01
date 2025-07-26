@@ -1,9 +1,6 @@
 <style>
     :root {
 
-        /* control max width of the section */
-        --max-width: {{ section.settings.max_width }};
-
         --font-family-first: "helvetica";
         --font-family-second: "helvetica";
         --title-font-size-mobile: {{ section.settings.title_mobile }}px;
@@ -40,7 +37,7 @@
     }
     
     .wrapper {
-        max-width: var(--max-width);
+        max-width: 1036px;
         max-height: 683px;
         width: fit-content;
         background: var(--gb-color);
@@ -241,12 +238,6 @@
             "type": "image_picker",
             "id": "poster_image",
             "label": "video poster image"
-        },
-        {
-            "type": "number",
-            "id": "max_width",
-            "label": "section max width",
-            "default": 1036
         },
         {
             "type": "range",
