@@ -180,8 +180,8 @@
         <div class="custom-img-text__image">
             <div class="video-wrapper" style="position: relative;">
                 {% assign video_meta = shop.metaobjects.video["video-kpgeg7ya"] %}
-                {% assign poster_image = value %}
-                {% if video_meta != blank and video_meta.video != blank %}
+                {% assign poster_image = section.settings.poster_image %}
+                {% if video_meta != blank and video_meta.video != blank and poster_image != blank %}
                 {{ video_meta.video | media_tag: autoplay: false, controls: false, poster: poster_image| image_url: width: 800 }}
                 <button type="button" class="custom-play-pause">Play</button>
                 {% endif %}
