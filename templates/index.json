@@ -76,71 +76,15 @@
         "padding_bottom": 36
       }
     },
-    "poma_tUDXzK": {
-      "type": "poma",
-      "blocks": {
-        "value_prop_J9FLFx": {
-          "type": "value_prop",
-          "settings": {
-            "value_prop_img": "shopify://shop_images/coin_1007991.png",
-            "value_prop_title": "barrier friendly formula",
-            "value_prop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique neque quis mi auctor efficitur. Proin venenatis."
-          }
-        },
-        "value_prop_AgprkT": {
-          "type": "value_prop",
-          "settings": {
-            "value_prop_img": "shopify://shop_images/coin_1007991.png",
-            "value_prop_title": "barrier friendly formula",
-            "value_prop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique neque quis mi auctor efficitur. Proin venenatis."
-          }
-        },
-        "value_prop_KwnxPH": {
-          "type": "value_prop",
-          "settings": {
-            "value_prop_img": "shopify://shop_images/coin_1007991.png",
-            "value_prop_title": "barrier friendly formula",
-            "value_prop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique neque quis mi auctor efficitur. Proin venenatis."
-          }
-        }
-      },
-      "block_order": [
-        "value_prop_J9FLFx",
-        "value_prop_AgprkT",
-        "value_prop_KwnxPH"
-      ],
-      "name": "poma",
-      "settings": {
-        "poster_image": "shopify://shop_images/S8244a31e46de415585b39c0e10f34bf4W.webp",
-        "margin_block_mob": 20,
-        "margin_inline_mob": 20,
-        "margin_block_desk": 40,
-        "margin_inline_desk": 100,
-        "w_padding_block_mob": 40,
-        "w_padding_inline_mob": 20,
-        "w_padding_block_desk": 40,
-        "w_padding_inline_desk": 20,
-        "title": "our philosophy",
-        "title_mobile": 16,
-        "title_desktop": 20,
-        "subtitle": "signed, sealed, derm-approved",
-        "subtitle_mobile": 16,
-        "subtitle_desktop": 24,
-        "row_gap": 20,
-        "column_gap": 20,
-        "video_url": "https://www.youtube.com/watch?v=u99w8PiHcEk",
-        "card_info_title": "when we say 'signed,' off we mean it's...",
-        "card_title_mobile": 16,
-        "card_title_desktop": 24,
-        "bg_color": "#fffadd",
-        "btn_text": "learn more",
-        "url": ""
-      }
+    "section_rendering_api_Kq34kB": {
+      "type": "section-rendering-api",
+      "name": "section rendering api",
+      "settings": {}
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
-    "poma_tUDXzK"
+    "section_rendering_api_Kq34kB"
   ]
 }
