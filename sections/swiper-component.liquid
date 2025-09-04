@@ -4,16 +4,7 @@
       <h2>{{ section.setting.title }}</h2>
       <span>{{ section.settings.subtitle }}</span>
       <div class="shop-style__display">
-        {% for product in section.settings.products %}
-          {{
-            product.featured_image | image_url: width: 1600 | image_tag:
-            loading: 'lazy',
-            widths: [400, 800, 1200, 1600],
-            sizes: '(max-width: 768px) 100vw, 50vw',
-            class: 'responsive-img',
-            alt: product.title | escape
-          }}
-        {% endfor %}
+
       </div>
       <div class="shop-style__products">
         <!-- create a snippet for the product card -->
