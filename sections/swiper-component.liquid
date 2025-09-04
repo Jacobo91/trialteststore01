@@ -10,8 +10,7 @@
             loading: 'lazy',
             widths: '400, 800, 1200, 1600',
             sizes: '(max-width: 768px) 100vw, 50vw',
-            class: 'responsive-img img-{{ forloop.index }}',
-            alt: product.title | escape
+            class: 'responsive-img img-' | append: forloop.index 
           }}
         {% endfor %}
       </div>
