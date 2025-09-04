@@ -80,11 +80,23 @@
       "type": "section-rendering-api",
       "name": "section rendering api",
       "settings": {}
+    },
+    "shop_style_8zPiTz": {
+      "type": "shop-style",
+      "name": "shop style",
+      "settings": {
+        "title": "Shop The Full Style",
+        "subtitle": "Look like a pro with the full style",
+        "products": [
+          "example-t-shirt"
+        ]
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
-    "section_rendering_api_Kq34kB"
+    "section_rendering_api_Kq34kB",
+    "shop_style_8zPiTz"
   ]
 }
