@@ -5,6 +5,7 @@
       <span>{{ section.settings.subtitle }}</span>
       <div class="shop-style__display">
         {% for product in section.settings.products %}
+          <span>{{ product.tite }}</span>
           {{
             product.featured_image | image_url: width: 1600 | image_tag:
             loading: 'lazy',
