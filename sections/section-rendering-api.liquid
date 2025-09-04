@@ -1,16 +1,73 @@
-<section id="{{ section.id }}">
+{%- comment -%}
+    for rendering a section you need: (basic)
+        1. Fetch the section:
+            fetch(window.Shopify.routes.root + "?sections=product-info")
+        2. Get the Html in the response
+            .then((response) => {   return response.json() })
+        3. print it in your html
+            .then((data) => { document.querySelector('.basic-redner').innerHTML = data["product-info"] })
 
+        but, what if we want to bring updated product info ??
+        1. Fetch the section using product handle:
+            fetch(window.Shopify.routes.root + "products/product-handle?section_id=product-info")
+        2. Get the Html in the response:
+            .then((response) => {   return response.text() })
+        3. print it in your html
+            .then((data) => { document.querySelector('.basic-redner').innerHTML = data })
+
+{%- endcomment -%}
+
+
+<style>
+    .products-btns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+</style>
+
+<section>
+        {% if template.name == 'index' %}
+            <h1>yess</h1>
+        {% endif %}
+    <h2>Please select a product to see more info.</h2>
+    <div class="products-btns">
+        {% assign products = collections.all.products %}
+        {% for product in products limit: 5 %}
+            <button data-handle="{{ product.handle }}">
+                {{ product.title }}
+            </button>
+        {% endfor %}
+    </div>
+    <div class="basic-redner"></div>
 </section>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('button');
+
+        buttons.forEach(btn => {        
+            btn.addEventListener('click', (e) => {
+                fetch(window.Shopify.routes.root + `products/${e.target.getAttribute('data-handle')}?section_id=product-info`)
+                    .then((response) => {
+                        return response.text()
+                    })
+                    .then((data) => {
+                        document.querySelector('.basic-redner').innerHTML = data;
+                    })
+            })
+        });
+    })
+</script>
+
 {% schema %}
-  {
-    "name": "section rendering api",
-    "settings": [],
-    "blocks": [],
-    "presets": [
-      {
-        "name": "section rendering api"
-      }
-    ]
-  }
+{
+  "name": "section rendering api",
+  "settings": [],
+  "presets": [
+    { "name": "section rendering api" }
+  ]
+}
 {% endschema %}
