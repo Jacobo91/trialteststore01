@@ -31,14 +31,14 @@
 </style>
 
 <section id="bestsellers-{{  section.id }}" class="md:pl-[64px] lg:pl-[128px] mb-[36px] md:mb-[100px]">
-    <h1 class="text-[28px] md:text-[40px] font-bold mb-6 md:mb-[36px] font-source-pro text-center md:text-left mt-[36px] md:mt-[80px]">{{ section.settings.title }}</h1>
+    <h1 class="text-[28px] md:text-[40px] font-bold mb-6 md:mb-[36px] font-source-pro text-center md:text-left mt-[36px] md:mt-[80px] capitalize">{{ section.settings.title }}</h1>
         
         <product-grid-shopify data-collection="{{ section.settings.selected_collection.products }}">
             <div id="product-grid-wrapper" class="relative">
                 <div id="product-grid" class="flex gap-x-[11px] gap-y-[12px] md:gap-y-[0px] md:gap-x-[24px] flex-wrap justify-center md:flex-nowrap md:overflow-x-scroll md:justify-start md:pb-[52px]">
 
                         {% for product in section.settings.selected_collection.products %}                            
-                            <a class="relative inline-block w-[158px] md:w-[353px]" href="{{ product.url }}">
+                            <a class="relative inline-block w-[158px] md:w-[353px] flex-shrink-0" href="{{ product.url }}">
                                 <!-- tags -->
                                 <div id="tags-container" class="absolute top-0 z-10 flex justify-between w-full p-[4px] md:p-[8px] font-bebas"></div>
                                 
