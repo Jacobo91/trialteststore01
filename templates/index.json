@@ -91,12 +91,21 @@
           "example-t-shirt"
         ]
       }
+    },
+    "platter_jjNPfX": {
+      "type": "platter",
+      "name": "bestsellers",
+      "settings": {
+        "title": "bestsellers",
+        "selected_collection": ""
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
     "section_rendering_api_Kq34kB",
-    "shop_style_8zPiTz"
+    "shop_style_8zPiTz",
+    "platter_jjNPfX"
   ]
 }
