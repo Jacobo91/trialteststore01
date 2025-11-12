@@ -33,7 +33,7 @@
 <section id="bestsellers-{{  section.id }}" class="md:pl-[64px] lg:pl-[128px] mb-[36px] md:mb-[100px]">
     <h1 class="text-[28px] md:text-[40px] font-bold mb-6 md:mb-[36px] font-source-pro text-center md:text-left mt-[36px] md:mt-[80px]">{{ section.settings.title }}</h1>
         
-        <product-grid-shopify>
+        <product-grid-shopify data-collection="{{ section.settings.selected_collection.products }}">
             <div id="product-grid-wrapper" class="relative">
                 <div id="product-grid" class="flex gap-x-[11px] gap-y-[12px] md:gap-y-[0px] md:gap-x-[24px] flex-wrap justify-center md:flex-nowrap md:overflow-x-scroll md:justify-start md:pb-[52px]">
 
@@ -43,7 +43,7 @@
                                 <div id="tags-container" class="absolute top-0 z-10 flex justify-between w-full p-[4px] md:p-[8px] font-bebas"></div>
                                 
                                 <div id="image-wrapper" class="relative overflow-hidden rounded-[10px]">
-                                    <image id="featured-image" class="w-full object-fit aspect-[1/1]" src="{{ product.featured_image }}"/>
+                                    <image id="featured-image" class="w-full object-fit aspect-[1/1]" src="{{ product.featured_image |  image_url: width: 800 }}"/>
                                 </div>
                 
                                 <div id="product-info" class="pt-[12px] pb-[8px] pl-[8px] md:p-[16px] md:pl-[12px] flex flex-col gap-[8px] md:gap-[11px]">
@@ -57,7 +57,7 @@
                                         </div>
                                         1,234 Reviews
                                     </div>
-                                    <span id="product-price" class="font-poppins text-[16px] font-medium">{{ product.price }}</span>
+                                    <span id="product-price" class="font-poppins text-[16px] font-medium">{{ product.price |  money}}</span>
                                 </div>
                             </a>
                         {% endfor %}
