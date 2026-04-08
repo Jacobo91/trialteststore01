@@ -471,11 +471,12 @@
   </div>
 </div>
 
+
+
 {% schema %}
 {
   "name": "Universal Content Block",
   "tag": "section",
-  "class": "section",
   "settings": [
     {
       "type": "header",
@@ -561,7 +562,8 @@
       "label": "Header Bottom Margin",
       "min": 20,
       "max": 80,
-      "default": 40
+      "default": 40,
+      "step": 1
     },
     {
       "type": "range",
@@ -569,7 +571,8 @@
       "label": "Subheading Bottom Margin",
       "min": 0,
       "max": 30,
-      "default": 10
+      "default": 10,
+      "step": 1
     },
     {
       "type": "header",
@@ -579,6 +582,7 @@
       "type": "range",
       "id": "grid_columns",
       "label": "Columns (Desktop)",
+      "step": 1,
       "min": 1,
       "max": 6,
       "default": 4
@@ -589,7 +593,8 @@
       "label": "Columns (Tablet)",
       "min": 1,
       "max": 4,
-      "default": 2
+      "default": 2,
+      "step": 1
     },
     {
       "type": "range",
@@ -597,7 +602,8 @@
       "label": "Gap Between Items",
       "min": 0,
       "max": 50,
-      "default": 20
+      "default": 20,
+      "step": 1
     },
     {
       "type": "range",
@@ -605,7 +611,8 @@
       "label": "Visible Items (Carousel)",
       "min": 2,
       "max": 6,
-      "default": 4
+      "default": 4,
+      "step": 1
     },
     {
       "type": "header",
@@ -681,7 +688,8 @@
       "label": "Heading Size (px)",
       "min": 20,
       "max": 72,
-      "default": 36
+      "default": 36,
+      "step": 1
     },
     {
       "type": "select",
@@ -701,7 +709,8 @@
       "label": "Subheading Size (px)",
       "min": 12,
       "max": 24,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "range",
@@ -709,7 +718,8 @@
       "label": "Text Size (px)",
       "min": 12,
       "max": 20,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "range",
@@ -717,7 +727,8 @@
       "label": "Card Title Size (px)",
       "min": 14,
       "max": 28,
-      "default": 18
+      "default": 18,
+      "step": 1
     },
     {
       "type": "select",
@@ -736,7 +747,8 @@
       "label": "Card Description Size (px)",
       "min": 12,
       "max": 18,
-      "default": 14
+      "default": 14,
+      "step": 1
     },
     {
       "type": "range",
@@ -744,7 +756,8 @@
       "label": "Description Lines (Clamp)",
       "min": 1,
       "max": 6,
-      "default": 3
+      "default": 3,
+      "step": 1
     },
     {
       "type": "range",
@@ -752,7 +765,8 @@
       "label": "Price Size (px)",
       "min": 14,
       "max": 24,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "header",
@@ -764,7 +778,8 @@
       "label": "Section Padding (Desktop)",
       "min": 0,
       "max": 120,
-      "default": 60
+      "default": 60,
+      "step": 1
     },
     {
       "type": "range",
@@ -772,7 +787,8 @@
       "label": "Section Padding (Mobile)",
       "min": 0,
       "max": 80,
-      "default": 40
+      "default": 40,
+      "step": 1
     },
     {
       "type": "range",
@@ -780,7 +796,8 @@
       "label": "Card Padding",
       "min": 10,
       "max": 40,
-      "default": 20
+      "default": 20,
+      "step": 1
     },
     {
       "type": "range",
@@ -788,7 +805,8 @@
       "label": "Container Max Width",
       "min": 768,
       "max": 1920,
-      "default": 1200
+      "default": 1200,
+      "step": 1
     },
     {
       "type": "header",
@@ -800,7 +818,8 @@
       "label": "Border Radius",
       "min": 0,
       "max": 30,
-      "default": 8
+      "default": 8,
+      "step": 1
     },
     {
       "type": "checkbox",
@@ -830,7 +849,7 @@
       "label": "Image Zoom on Hover (1.0 - 1.2)",
       "min": 1,
       "max": 1.2,
-      "step": 0.05,
+      "step": 1,
       "default": 1.05
     },
     {
@@ -839,7 +858,8 @@
       "label": "Card Lift on Hover (px)",
       "min": 0,
       "max": 20,
-      "default": 5
+      "default": 5,
+      "step": 1
     },
     {
       "type": "range",
@@ -860,7 +880,8 @@
       "label": "Button Vertical Padding",
       "min": 8,
       "max": 24,
-      "default": 14
+      "default": 14,
+      "step": 1
     },
     {
       "type": "range",
@@ -868,7 +889,8 @@
       "label": "Button Horizontal Padding",
       "min": 16,
       "max": 48,
-      "default": 28
+      "default": 28,
+      "step": 1
     },
     {
       "type": "range",
@@ -876,7 +898,8 @@
       "label": "Button Border Radius",
       "min": 0,
       "max": 30,
-      "default": 4
+      "default": 4,
+      "step": 1
     },
     {
       "type": "range",
@@ -884,7 +907,8 @@
       "label": "Button Font Size",
       "min": 12,
       "max": 18,
-      "default": 14
+      "default": 14,
+      "step": 1
     },
     {
       "type": "header",
@@ -930,7 +954,8 @@
       "label": "Footer Top Margin",
       "min": 20,
       "max": 80,
-      "default": 40
+      "default": 40,
+      "step": 1
     },
     {
       "type": "range",
@@ -938,7 +963,8 @@
       "label": "Footer Link Size",
       "min": 12,
       "max": 18,
-      "default": 14
+      "default": 14,
+      "step": 1
     },
     {
       "type": "header",
@@ -950,7 +976,8 @@
       "label": "Product Limit",
       "min": 1,
       "max": 24,
-      "default": 8
+      "default": 8,
+      "step": 1
     },
     {
       "type": "checkbox",
@@ -997,7 +1024,8 @@
       "label": "Products to Show",
       "min": 1,
       "max": 24,
-      "default": 8
+      "default": 8,
+      "step": 1
     },
     {
       "type": "checkbox",
@@ -1020,7 +1048,8 @@
       "label": "Articles to Show",
       "min": 1,
       "max": 12,
-      "default": 6
+      "default": 6,
+      "step": 1
     },
     {
       "type": "header",
@@ -1058,7 +1087,8 @@
       "label": "Overlay Opacity (%)",
       "min": 0,
       "max": 100,
-      "default": 0
+      "default": 0,
+      "step": 1
     },
     {
       "type": "header",
@@ -1116,7 +1146,8 @@
       "label": "Duration (seconds)",
       "min": 10,
       "max": 60,
-      "default": 20
+      "default": 20,
+      "step": 1
     },
     {
       "type": "range",
@@ -1124,7 +1155,8 @@
       "label": "Font Size (px)",
       "min": 12,
       "max": 32,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "header",
@@ -1166,7 +1198,8 @@
       "label": "Number Size (px)",
       "min": 24,
       "max": 72,
-      "default": 48
+      "default": 48,
+      "step": 1
     },
     {
       "type": "header",
@@ -1222,7 +1255,8 @@
       "label": "Quote Font Size",
       "min": 14,
       "max": 24,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "header",
@@ -1251,7 +1285,8 @@
       "label": "Masonry Columns",
       "min": 2,
       "max": 6,
-      "default": 3
+      "default": 3,
+      "step": 1
     },
     {
       "type": "header",
@@ -1274,7 +1309,8 @@
       "label": "Question Size",
       "min": 14,
       "max": 24,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "range",
@@ -1282,7 +1318,8 @@
       "label": "Answer Size",
       "min": 12,
       "max": 18,
-      "default": 15
+      "default": 15,
+      "step": 1
     },
     {
       "type": "header",
@@ -1306,7 +1343,8 @@
       "label": "Stat Padding",
       "min": 10,
       "max": 40,
-      "default": 20
+      "default": 20,
+      "step": 1
     },
     {
       "type": "range",
@@ -1314,7 +1352,8 @@
       "label": "Number Size",
       "min": 24,
       "max": 80,
-      "default": 48
+      "default": 48,
+      "step": 1
     },
     {
       "type": "range",
@@ -1322,7 +1361,8 @@
       "label": "Label Size",
       "min": 12,
       "max": 20,
-      "default": 16
+      "default": 16,
+      "step": 1
     },
     {
       "type": "header",
@@ -1346,7 +1386,8 @@
       "label": "Icon Size (px)",
       "min": 24,
       "max": 80,
-      "default": 48
+      "default": 48,
+      "step": 1
     },
     {
       "type": "range",
@@ -1354,7 +1395,8 @@
       "label": "Title Size",
       "min": 14,
       "max": 24,
-      "default": 18
+      "default": 18,
+      "step": 1
     },
     {
       "type": "range",
@@ -1362,7 +1404,8 @@
       "label": "Description Size",
       "min": 12,
       "max": 18,
-      "default": 14
+      "default": 14,
+      "step": 1
     },
     {
       "type": "header",
@@ -1384,7 +1427,8 @@
       "label": "Max Logo Height",
       "min": 30,
       "max": 100,
-      "default": 60
+      "default": 60,
+      "step": 1
     },
     {
       "type": "header",
@@ -1401,7 +1445,8 @@
       "label": "Overlay Opacity (%)",
       "min": 0,
       "max": 100,
-      "default": 50
+      "default": 50,
+      "step": 1
     },
     {
       "type": "range",
@@ -1409,7 +1454,8 @@
       "label": "Padding",
       "min": 40,
       "max": 160,
-      "default": 80
+      "default": 80,
+      "step": 1
     },
     {
       "type": "select",
@@ -1428,7 +1474,8 @@
       "label": "Heading Size",
       "min": 24,
       "max": 72,
-      "default": 42
+      "default": 42,
+      "step": 1
     },
     {
       "type": "range",
@@ -1436,7 +1483,8 @@
       "label": "Text Size",
       "min": 14,
       "max": 24,
-      "default": 18
+      "default": 18,
+      "step": 1
     },
     {
       "type": "select",
@@ -1471,7 +1519,8 @@
       "label": "Content Padding",
       "min": 0,
       "max": 60,
-      "default": 40
+      "default": 40,
+      "step": 1
     },
     {
       "type": "header",
@@ -1557,7 +1606,7 @@
         {"type": "text", "id": "author", "label": "Author Name"},
         {"type": "text", "id": "role", "label": "Author Role/Company"},
         {"type": "image_picker", "id": "avatar", "label": "Avatar"},
-        {"type": "range", "id": "rating", "label": "Rating (1-5)", "min": 1, "max": 5, "default": 5}
+        {"type": "range", "id": "rating", "label": "Rating (1-5)", "step": 1, "min": 1, "max": 5, "default": 5}
       ]
     },
     {
