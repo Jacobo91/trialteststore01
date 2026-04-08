@@ -1,0 +1,38 @@
+{%- comment -%} Collection render snippet {%- endcomment -%}
+
+{%- liquid
+  assign collection = section.settings.featured_collection
+  assign limit = section.settings.collection_limit | default: 8
+-%}
+
+{%- if collection != blank -%}
+  {%- assign products = collection.products | limit: limit -%}
+  <div class="ucb-grid{% if layout_type == 'carousel' %} ucb-carousel{% endif %}">
+    {%- for product in products -%}
+      <article class="ucb-card">
+        <div class="ucb-card__image">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="ucb-card__badge">Sale</span>
+          {%- endif -%}
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" loading="lazy">
+          </a>
+        </div>
+        <div class="ucb-card__content">
+          <h3 class="ucb-card__title">
+            <a href="{{ product.url }}">{{ product.title }}</a>
+          </h3>
+          <p class="ucb-card__description">{{ product.description | strip_html | truncate: 100 }}</p>
+          <div class="ucb-card__meta">
+            <span class="ucb-card__price">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="ucb-card__price-compare">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+              {{ product.price | money }}
+            </span>
+          </div>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

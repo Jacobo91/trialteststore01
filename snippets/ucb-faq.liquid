@@ -1,0 +1,99 @@
+{%- comment -%} FAQ accordion snippet {%- endcomment -%}
+
+{%- liquid
+  assign items = section.blocks | where: 'type', 'faq_item'
+  assign style = section.settings.faq_style | default: 'accordion'
+-%}
+
+<div class="ucb-faq ucb-faq--{{ style }}">
+  {%- for block in items -%}
+    <details class="ucb-faq__item" {{ block.shopify_attributes }}>
+      <summary class="ucb-faq__question">
+        {{ block.settings.question }}
+        <span class="ucb-faq__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </span>
+      </summary>
+      <div class="ucb-faq__answer">
+        {{ block.settings.answer }}
+      </div>
+    </details>
+  {%- endfor -%}
+</div>
+
+<style>
+  .ucb-faq__item {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  
+  .ucb-faq__question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    cursor: pointer;
+    font-size: {{ section.settings.faq_question_size | default: 16 }}px;
+    font-weight: 600;
+    color: var(--heading-color);
+    list-style: none;
+  }
+  
+  .ucb-faq__question::-webkit-details-marker {
+    display: none;
+  }
+  
+  .ucb-faq__icon {
+    flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+  
+  .ucb-faq__item[open] .ucb-faq__icon {
+    transform: rotate(45deg);
+  }
+  
+  .ucb-faq__answer {
+    padding-bottom: 20px;
+    font-size: {{ section.settings.faq_answer_size | default: 15 }}px;
+    color: var(--text-color);
+    line-height: 1.7;
+  }
+  
+  .ucb-faq__answer p {
+    margin: 0;
+  }
+  
+  .ucb-faq--bordered .ucb-faq__item {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--card-radius);
+    margin-bottom: 12px;
+    padding: 0 20px;
+  }
+  
+  .ucb-faq--bordered .ucb-faq__question {
+    padding: 16px 0;
+  }
+  
+  .ucb-faq--bordered .ucb-faq__answer {
+    padding-bottom: 16px;
+  }
+  
+  .ucb-faq--minimal .ucb-faq__question {
+    padding: 16px 0;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.ucb-faq__item').forEach(function(details) {
+    details.addEventListener('toggle', function() {
+      if (details.open) {
+        details.parentElement.querySelectorAll('details[open]').forEach(function(openDetails) {
+          if (openDetails !== details) {
+            openDetails.removeAttribute('open');
+          }
+        });
+      }
+    });
+  });
+</script>

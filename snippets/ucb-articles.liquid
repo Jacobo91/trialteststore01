@@ -1,0 +1,57 @@
+{%- comment -%} Articles render snippet {%- endcomment -%}
+
+{%- liquid
+  assign articles = section.blocks | where: 'type', 'article'
+  assign limit = section.settings.article_limit | default: 6
+  assign blog = section.settings.blog
+-%}
+
+<div class="ucb-grid{% if layout_type == 'carousel' %} ucb-carousel{% endif %}">
+  {%- if blog -%}
+    {%- for article in blog.articles limit: limit -%}
+      <article class="ucb-card">
+        <div class="ucb-card__image">
+          <a href="{{ article.url }}">
+            {%- if article.image -%}
+              <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title }}" loading="lazy">
+            {%- endif -%}
+          </a>
+        </div>
+        <div class="ucb-card__content">
+          <h3 class="ucb-card__title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h3>
+          <p class="ucb-card__description">{{ article.excerpt | strip_html | default: article.content | strip_html | truncate: 120 }}</p>
+          <div class="ucb-card__meta">
+            <span class="ucb-card__date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+          </div>
+          <a href="{{ article.url }}" class="ucb-card__button">Read More</a>
+        </div>
+      </article>
+    {%- endfor -%}
+  {%- else -%}
+    {%- for block in articles limit: limit -%}
+      {%- assign article = block.settings.article -%}
+      {%- if article != blank -%}
+        <article class="ucb-card">
+          <div class="ucb-card__image">
+            <a href="{{ article.url }}">
+              {%- if article.image -%}
+                <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title }}" loading="lazy">
+              {%- endif -%}
+            </a>
+          </div>
+          <div class="ucb-card__content">
+            <h3 class="ucb-card__title">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h3>
+            <p class="ucb-card__description">{{ article.excerpt | strip_html | default: article.content | strip_html | truncate: 120 }}</p>
+            <div class="ucb-card__meta">
+              <span class="ucb-card__date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+            </div>
+          </div>
+        </article>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>

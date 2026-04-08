@@ -1,0 +1,55 @@
+{%- comment -%} Add to Cart snippet {%- endcomment -%}
+
+{%- liquid
+  assign product_url = product.url
+  assign variant_id = product.selected_or_first_available_variant.id
+  assign button_text = section.settings.atc_button_text | default: 'Add to Cart'
+-%}
+
+<product-form class="ucb-atc-form">
+  {%- form 'product', product, data-product-form: '', data-product-handle: product.handle -%}
+    <input type="hidden" name="id" value="{{ variant_id }}">
+    
+    <button type="submit" class="ucb-card__button ucb-atc-btn" data-atc>
+      <span data-add-to-cart-text>{{ button_text }}</span>
+      <span class="ucb-atc-icon" style="display: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </span>
+    </button>
+  {%- endform -%}
+</product-form>
+
+<style>
+  .ucb-atc-form {
+    margin-top: 12px;
+  }
+  
+  .ucb-atc-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .ucb-atc-btn.success {
+    background: #27ae60;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-atc]').forEach(function(btn) {
+    btn.closest('product-form')?.addEventListener('product:added', function(e) {
+      btn.classList.add('success');
+      btn.querySelector('[data-add-to-cart-text]').textContent = 'Added!';
+      btn.querySelector('.ucb-atc-icon').style.display = 'inline';
+      setTimeout(function() {
+        btn.classList.remove('success');
+        btn.querySelector('[data-add-to-cart-text]').textContent = '{{ button_text }}';
+        btn.querySelector('.ucb-atc-icon').style.display = 'none';
+      }, 2000);
+    });
+  });
+</script>

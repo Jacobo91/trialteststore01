@@ -1,0 +1,61 @@
+{%- comment -%} Image render snippet {%- endcomment -%}
+
+{%- liquid
+  assign image = section.settings.image
+  assign link = section.settings.image_link
+  assign alt = section.settings.image_alt
+  assign caption = section.settings.image_caption
+  assign overlay = section.settings.image_overlay
+  assign overlay_opacity = section.settings.image_overlay_opacity | default: 0
+-%}
+
+<div class="ucb-image-block">
+  {%- if link != blank -%}
+    <a href="{{ link }}">
+  {%- endif -%}
+  
+  {%- if image != blank -%}
+    <img src="{{ image | image_url: width: 1200 }}" alt="{{ alt | default: image.alt }}" loading="lazy">
+  {%- else -%}
+    {{ 'image' | placeholder_svg_tag }}
+  {%- endif -%}
+  
+  {%- if overlay_opacity > 0 -%}
+    <div class="ucb-image-overlay" style="background: {{ overlay }}; opacity: {{ overlay_opacity | divided_by: 100 }};"></div>
+  {%- endif -%}
+  
+  {%- if caption != blank -%}
+    <p class="ucb-image-caption">{{ caption }}</p>
+  {%- endif -%}
+  
+  {%- if link != blank -%}
+    </a>
+  {%- endif -%}
+</div>
+
+<style>
+  .ucb-image-block {
+    position: relative;
+  }
+  
+  .ucb-image-block img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--card-radius);
+  }
+  
+  .ucb-image-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--card-radius);
+    pointer-events: none;
+  }
+  
+  .ucb-image-caption {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--text-color);
+  }
+</style>

@@ -1,0 +1,84 @@
+{%- comment -%} Logo list snippet {%- endcomment -%}
+
+{%- liquid
+  assign logos = section.blocks | where: 'type', 'logo'
+  assign style = section.settings.logos_style | default: 'grayscale'
+  assign max_height = section.settings.logo_max_height | default: 60
+-%}
+
+<div class="ucb-logos ucb-logos--{{ style }}{% if layout_type == 'carousel' %} ucb-carousel{% endif %}">
+  {%- for block in logos -%}
+    {%- if block.settings.link != blank -%}
+      <a href="{{ block.settings.link }}" class="ucb-logo" target="_blank" rel="noopener" {{ block.shopify_attributes }}>
+    {%- else -%}
+      <div class="ucb-logo" {{ block.shopify_attributes }}>
+    {%- endif -%}
+    
+    {%- if block.settings.logo_image != blank -%}
+      <img src="{{ block.settings.logo_image | image_url: width: 300 }}" alt="{{ block.settings.name | default: 'Logo' }}" style="max-height: {{ max_height }}px;">
+    {%- else -%}
+      <span class="ucb-logo__placeholder">{{ block.settings.name | default: 'Brand' }}</span>
+    {%- endif -%}
+    
+    {%- if block.settings.link != blank -%}
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+<style>
+  .ucb-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--grid-gap);
+  }
+  
+  .ucb-logos.ucb-carousel {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .ucb-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  
+  .ucb-logo img {
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .ucb-logos--grayscale .ucb-logo img {
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s;
+  }
+  
+  .ucb-logos--grayscale .ucb-logo:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+  
+  .ucb-logos--color .ucb-logo img {
+    transition: opacity 0.3s;
+  }
+  
+  .ucb-logos--color .ucb-logo:hover img {
+    opacity: 0.8;
+  }
+  
+  .ucb-logo__placeholder {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.4;
+  }
+</style>

@@ -1,0 +1,74 @@
+{%- comment -%} Stats / Numbers snippet {%- endcomment -%}
+
+{%- liquid
+  assign stats = section.blocks | where: 'type', 'stat'
+  assign style = section.settings.stats_style | default: 'default'
+-%}
+
+<div class="ucb-stats ucb-stats--{{ style }}{% if layout_type == 'carousel' %} ucb-carousel{% else %} ucb-grid{% endif %}">
+  {%- for block in stats -%}
+    <div class="ucb-stat" {{ block.shopify_attributes }}>
+      <div class="ucb-stat__number">
+        {%- if block.settings.prefix != blank -%}
+          <span class="ucb-stat__prefix">{{ block.settings.prefix }}</span>
+        {%- endif -%}
+        <span class="ucb-stat__value">{{ block.settings.number }}</span>
+        {%- if block.settings.suffix != blank -%}
+          <span class="ucb-stat__suffix">{{ block.settings.suffix }}</span>
+        {%- endif -%}
+      </div>
+      <div class="ucb-stat__label">{{ block.settings.label }}</div>
+    </div>
+  {%- endfor -%}
+</div>
+
+<style>
+  .ucb-stat {
+    text-align: center;
+    padding: {{ section.settings.stats_padding | default: 20 }}px;
+  }
+  
+  .ucb-stat__number {
+    font-size: {{ section.settings.stats_number_size | default: 48 }}px;
+    font-weight: 700;
+    color: var(--heading-color);
+    line-height: 1.2;
+  }
+  
+  .ucb-stat__prefix,
+  .ucb-stat__suffix {
+    font-size: 0.6em;
+    vertical-align: super;
+  }
+  
+  .ucb-stat__label {
+    font-size: {{ section.settings.stats_label_size | default: 16 }}px;
+    color: var(--text-color);
+    margin-top: 8px;
+  }
+  
+  .ucb-stats--cards .ucb-stat {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+  }
+  
+  .ucb-stats--bordered .ucb-stat {
+    border-right: 1px solid rgba(0,0,0,0.1);
+  }
+  
+  .ucb-stats--bordered .ucb-stat:last-child {
+    border-right: none;
+  }
+  
+  @media (max-width: 768px) {
+    .ucb-stats--bordered .ucb-stat {
+      border-right: none;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+  }
+  
+  .ucb-stats--accent .ucb-stat__number {
+    color: var(--link-color);
+  }
+</style>

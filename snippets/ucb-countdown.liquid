@@ -1,0 +1,73 @@
+{%- comment -%} Countdown timer snippet {%- endcomment -%}
+
+{%- liquid
+  assign target_date = section.settings.countdown_date
+  assign show_days = section.settings.show_days
+  assign show_hours = section.settings.show_hours | default: true
+  assign show_minutes = section.settings.show_minutes | default: true
+  assign show_seconds = section.settings.show_seconds | default: true
+-%}
+
+<div class="ucb-countdown" data-countdown="{{ target_date | date: '%Y-%m-%dT%H:%M:%S' }}">
+  {%- if show_days -%}
+    <div class="ucb-countdown-item">
+      <span class="ucb-countdown-number" data-days>00</span>
+      <span class="ucb-countdown-label">Days</span>
+    </div>
+  {%- endif -%}
+  {%- if show_hours -%}
+    <div class="ucb-countdown-item">
+      <span class="ucb-countdown-number" data-hours>00</span>
+      <span class="ucb-countdown-label">Hours</span>
+    </div>
+  {%- endif -%}
+  {%- if show_minutes -%}
+    <div class="ucb-countdown-item">
+      <span class="ucb-countdown-number" data-minutes>00</span>
+      <span class="ucb-countdown-label">Minutes</span>
+    </div>
+  {%- endif -%}
+  {%- if show_seconds -%}
+    <div class="ucb-countdown-item">
+      <span class="ucb-countdown-number" data-seconds>00</span>
+      <span class="ucb-countdown-label">Seconds</span>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdown = document.querySelector('[data-countdown]');
+    if (!countdown) return;
+    
+    const target = new Date(countdown.dataset.countdown).getTime();
+    
+    function update() {
+      const now = Date.now();
+      const diff = target - now;
+      
+      if (diff <= 0) {
+        countdown.innerHTML = '<span class="ucb-countdown-expired">Time\'s up!</span>';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      const d = countdown.querySelector('[data-days]');
+      const h = countdown.querySelector('[data-hours]');
+      const m = countdown.querySelector('[data-minutes]');
+      const s = countdown.querySelector('[data-seconds]');
+      
+      if (d) d.textContent = String(days).padStart(2, '0');
+      if (h) h.textContent = String(hours).padStart(2, '0');
+      if (m) m.textContent = String(minutes).padStart(2, '0');
+      if (s) s.textContent = String(seconds).padStart(2, '0');
+    }
+    
+    update();
+    setInterval(update, 1000);
+  });
+</script>

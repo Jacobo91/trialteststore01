@@ -1,0 +1,83 @@
+{%- comment -%} Newsletter snippet {%- endcomment -%}
+
+{%- liquid
+  assign list_id = section.settings.mailchimp_list_id
+  assign button_text = section.settings.newsletter_button_text | default: 'Subscribe'
+  assign show_name = section.settings.show_name_field
+  assign placeholder = section.settings.input_placeholder | default: 'Enter your email'
+-%}
+
+<div class="ucb-newsletter">
+  {%- form 'customer', class: 'ucb-newsletter-form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    
+    {%- if show_name -%}
+      <div class="ucb-newsletter-row">
+        <input type="text" name="contact[first_name]" placeholder="First Name" required>
+    {%- endif -%}
+        <input type="email" name="contact[email]" placeholder="{{ placeholder }}" required>
+        <button type="submit">{{ button_text }}</button>
+    {%- if show_name -%}
+      </div>
+    {%- endif -%}
+    
+    {%- if form.posted_successfully -%}
+      <p class="ucb-newsletter-success">{{ section.settings.success_message | default: 'Thanks for subscribing!' }}</p>
+    {%- elsif form.errors -%}
+      <p class="ucb-newsletter-error">{{ form.errors | default_errors }}</p>
+    {%- endif -%}
+  {%- endform -%}
+  
+  {%- if section.settings.privacy_text != blank -%}
+    <p class="ucb-newsletter-privacy">{{ section.settings.privacy_text }}</p>
+  {%- endif -%}
+</div>
+
+<style>
+  .ucb-newsletter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .ucb-newsletter-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .ucb-newsletter-form input,
+  .ucb-newsletter-form button {
+    padding: var(--btn-padding);
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: var(--btn-radius);
+    font-size: 14px;
+  }
+  
+  .ucb-newsletter-form input[type="text"],
+  .ucb-newsletter-form input[type="email"] {
+    min-width: 200px;
+    flex: 1;
+  }
+  
+  .ucb-newsletter-privacy {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-color);
+    margin-top: 12px;
+  }
+  
+  .ucb-newsletter-success {
+    color: #27ae60;
+    text-align: center;
+    margin-top: 12px;
+  }
+  
+  .ucb-newsletter-error {
+    color: #e53935;
+    text-align: center;
+    margin-top: 12px;
+  }
+</style>

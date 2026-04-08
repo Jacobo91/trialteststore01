@@ -1,0 +1,105 @@
+{%- comment -%} Gallery snippet {%- endcomment -%}
+
+{%- liquid
+  assign images = section.blocks | where: 'type', 'gallery_image'
+  assign style = section.settings.gallery_style | default: 'grid'
+  assign lightbox = section.settings.enable_lightbox
+  assign masonry = style == 'masonry'
+-%}
+
+<div class="ucb-gallery ucb-gallery--{{ style }}{% if lightbox %} ucb-gallery--lightbox{% endif %}">
+  {%- for block in images -%}
+    {%- assign image = block.settings.image -%}
+    <figure class="ucb-gallery__item" {{ block.shopify_attributes }}>
+      {%- if block.settings.link != blank -%}
+        <a href="{{ block.settings.link }}">
+      {%- elsif lightbox and image != blank -%}
+        <a href="{{ image | image_url: width: 1600 }}" data-lightbox>
+      {%- endif -%}
+      
+      {%- if image != blank -%}
+        <img src="{{ image | image_url: width: 600 }}" alt="{{ block.settings.caption | default: image.alt }}" loading="lazy">
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag }}
+      {%- endif -%}
+      
+      {%- if block.settings.link != blank or lightbox -%}
+        </a>
+      {%- endif -%}
+      
+      {%- if block.settings.caption != blank -%}
+        <figcaption>{{ block.settings.caption }}</figcaption>
+      {%- endif -%}
+    </figure>
+  {%- endfor -%}
+</div>
+
+<style>
+  .ucb-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--grid-gap);
+  }
+  
+  .ucb-gallery--masonry {
+    columns: {{ section.settings.masonry_columns | default: 3 }};
+    column-gap: var(--grid-gap);
+  }
+  
+  .ucb-gallery--masonry .ucb-gallery__item {
+    break-inside: avoid;
+    margin-bottom: var(--grid-gap);
+  }
+  
+  .ucb-gallery--carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+  }
+  
+  .ucb-gallery--carousel .ucb-gallery__item {
+    flex: 0 0 calc(33.333% - var(--grid-gap) * 2 / 3);
+    scroll-snap-align: start;
+  }
+  
+  @media (max-width: 768px) {
+    .ucb-gallery--carousel .ucb-gallery__item {
+      flex: 0 0 calc(50% - var(--grid-gap) / 2);
+    }
+  }
+  
+  .ucb-gallery__item {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+  }
+  
+  .ucb-gallery__item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform {{ section.settings.hover_duration | default: 0.3 }}s;
+  }
+  
+  .ucb-gallery__item:hover img {
+    transform: scale({{ section.settings.image_zoom | default: 1.05 }});
+  }
+  
+  .ucb-gallery__item figcaption {
+    padding: 8px 0;
+    font-size: 13px;
+    color: var(--text-color);
+  }
+</style>
+
+{%- if lightbox -%}
+<script>
+  document.querySelectorAll('[data-lightbox]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Lightbox functionality would go here
+    });
+  });
+</script>
+{%- endif -%}

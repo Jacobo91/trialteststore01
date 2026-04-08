@@ -1,0 +1,117 @@
+{%- comment -%} Features / Icons snippet {%- endcomment -%}
+
+{%- liquid
+  assign features = section.blocks | where: 'type', 'feature'
+  assign style = section.settings.features_style | default: 'icon-top'
+  assign icon_size = section.settings.features_icon_size | default: 48
+-%}
+
+<div class="ucb-features ucb-features--{{ style }}{% if layout_type == 'carousel' %} ucb-carousel{% else %} ucb-grid{% endif %}">
+  {%- for block in features -%}
+    <div class="ucb-feature" {{ block.shopify_attributes }}>
+      {%- if block.settings.icon != 'custom' or block.settings.icon_image != blank -%}
+        <div class="ucb-feature__icon" style="--icon-size: {{ icon_size }}px;">
+          {%- case block.settings.icon -%}
+            {%- when 'check' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            {%- when 'star' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {%- when 'heart' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            {%- when 'shield' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            {%- when 'truck' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            {%- when 'support' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            {%- when 'return' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            {%- when 'lock' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            {%- when 'leaf' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            {%- when 'award' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            {%- when 'globe' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            {%- when 'custom' -%}
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 100 }}" alt="">
+              {%- else -%}
+                {{ block.settings.custom_icon | default: '✓' }}
+              {%- endif -%}
+          {%- endcase -%}
+        </div>
+      {%- endif -%}
+      
+      {%- if block.settings.title != blank -%}
+        <h3 class="ucb-feature__title">{{ block.settings.title }}</h3>
+      {%- endif -%}
+      
+      {%- if block.settings.description != blank -%}
+        <p class="ucb-feature__description">{{ block.settings.description }}</p>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</div>
+
+<style>
+  .ucb-feature {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .ucb-features--icon-left .ucb-feature {
+    text-align: left;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .ucb-feature__icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--link-color);
+  }
+  
+  .ucb-features--icon-left .ucb-feature__icon {
+    margin: 0;
+    flex-shrink: 0;
+  }
+  
+  .ucb-feature__icon svg,
+  .ucb-feature__icon img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .ucb-feature__title {
+    font-size: {{ section.settings.feature_title_size | default: 18 }}px;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin: 0 0 8px;
+  }
+  
+  .ucb-feature__description {
+    font-size: {{ section.settings.feature_desc_size | default: 14 }}px;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  .ucb-features--borders .ucb-feature {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--card-radius);
+  }
+  
+  .ucb-features--accent .ucb-feature__icon {
+    background: var(--link-color);
+    color: white;
+    border-radius: 50%;
+    padding: 12px;
+  }
+</style>

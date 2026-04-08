@@ -1,0 +1,29 @@
+{%- comment -%} Marquee snippet {%- endcomment -%}
+
+{%- liquid
+  assign items = section.blocks | where: 'type', 'marquee_item'
+  assign speed = section.settings.marquee_speed | default: 20
+  assign duplicated = items | concat: items
+-%}
+
+<div class="ucb-marquee">
+  <div class="ucb-marquee-content">
+    {%- for block in duplicated -%}
+      {%- if block != nil -%}
+        <span class="ucb-marquee-item">
+          {{ block.settings.text }}
+          {%- if section.settings.marquee_separator != blank -%}
+            <span class="ucb-marquee-sep">{{ section.settings.marquee_separator }}</span>
+          {%- endif -%}
+        </span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+  .ucb-marquee-sep {
+    margin-left: 40px;
+    opacity: 0.5;
+  }
+</style>

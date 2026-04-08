@@ -1,0 +1,51 @@
+{%- comment -%} Split content snippet {%- endcomment -%}
+
+{%- liquid
+  assign block = section.blocks | where: 'type', 'split_item' | first
+  assign image = block.settings.image
+  assign heading = block.settings.heading
+  assign eyebrow = block.settings.eyebrow
+  assign content = block.settings.content
+  assign button_text = block.settings.button_text
+  assign button_link = block.settings.button_link
+  assign reverse = block.settings.reverse
+-%}
+
+<div class="ucb-split{% if reverse %} ucb-split--reverse{% endif %}">
+  <div class="ucb-split-media">
+    {%- if block.settings.video != blank -%}
+      <video src="{{ block.settings.video | video_url }}" autoplay muted loop playsinline></video>
+    {%- elsif image != blank -%}
+      <img src="{{ image | image_url: width: 800 }}" alt="{{ heading }}" loading="lazy">
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+  
+  <div class="ucb-split-content">
+    {%- if eyebrow != blank -%}
+      <span class="ucb-eyebrow">{{ eyebrow }}</span>
+    {%- endif -%}
+    {%- if heading != blank -%}
+      <h2 class="ucb-heading">{{ heading }}</h2>
+    {%- endif -%}
+    {%- if content != blank -%}
+      <div class="ucb-text-block">{{ content }}</div>
+    {%- endif -%}
+    {%- if button_text != blank and button_link != blank -%}
+      <a href="{{ button_link }}" class="ucb-card__button">{{ button_text }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .ucb-eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--link-color);
+    margin-bottom: 12px;
+  }
+</style>

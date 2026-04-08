@@ -1,0 +1,22 @@
+{%- comment -%} Video render snippet {%- endcomment -%}
+
+{%- liquid
+  assign video = section.settings.video
+  assign video_url = section.settings.video_url
+  assign autoplay = section.settings.video_autoplay
+  assign ratio = section.settings.video_ratio | default: '16/9'
+-%}
+
+<div class="ucb-video-container">
+  {%- if video != blank -%}
+    <video src="{{ video | video_url }}" autoplay muted loop playsinline></video>
+  {%- elsif video_url != blank -%}
+    {%- if video_url.type == 'youtube' -%}
+      <iframe src="https://www.youtube.com/embed/{{ video_url.id }}?autoplay={{ autoplay }}&mute={{ autoplay }}&loop=1&playlist={{ video_url.id }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    {%- elsif video_url.type == 'vimeo' -%}
+      <iframe src="https://player.vimeo.com/video/{{ video_url.id }}?autoplay={{ autoplay }}&muted={{ autoplay }}&loop=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    {%- endif -%}
+  {%- else -%}
+    {{ 'video' | placeholder_svg_tag }}
+  {%- endif -%}
+</div>

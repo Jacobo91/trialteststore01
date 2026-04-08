@@ -1,0 +1,82 @@
+{%- comment -%} Products render snippet {%- endcomment -%}
+
+{%- liquid
+  assign products = section.blocks | where: 'type', 'product'
+  assign limit = section.settings.limit | default: 8
+  assign sort_by = section.settings.sort_by
+  assign products_per_row = section.settings.grid_columns | default: 4
+  assign show_badges = section.settings.show_badges
+  assign show_quick_view = section.settings.show_quick_view
+  assign show_wishlist = section.settings.show_wishlist
+-%}
+
+{%- if products.size > 0 -%}
+  <div class="ucb-grid{% if layout_type == 'carousel' %} ucb-carousel{% endif %}{% if layout_type == 'featured' %} ucb-featured-grid{% endif %}">
+    {%- for block in products limit: limit -%}
+      {%- assign product = block.settings.product -%}
+      {%- if product != blank -%}
+        <article class="ucb-card" {{ block.shopify_attributes }}>
+          <div class="ucb-card__image">
+            {%- if show_badges -%}
+              {%- if product.compare_at_price > product.price -%}
+                <span class="ucb-card__badge" style="background: #e53935;">Sale</span>
+              {%- endif -%}
+              {%- if product.tags contains 'new' -%}
+                <span class="ucb-card__badge" style="background: #1976d2; left: auto; right: 10px;">New</span>
+              {%- endif -%}
+            {%- endif -%}
+            
+            <a href="{{ product.url }}">
+              {%- if product.featured_image -%}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" loading="lazy">
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {%- endif -%}
+            </a>
+          </div>
+          
+          <div class="ucb-card__content">
+            <h3 class="ucb-card__title">
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            </h3>
+            
+            <p class="ucb-card__description">{{ product.description | strip_html | truncate: 120 }}</p>
+            
+            <div class="ucb-card__meta">
+              <span class="ucb-card__price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="ucb-card__price-compare">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+                {{ product.price | money }}
+              </span>
+            </div>
+            
+            {%- if section.settings.show_atc -%}
+              {%- render 'ucb-add-to-cart', product: product -%}
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- else -%}
+  {%- if section.settings.show_empty_state -%}
+    <div class="ucb-empty">
+      <p>{{ section.settings.empty_state_text | default: 'No products found' }}</p>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+<style>
+  .ucb-featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+  }
+  
+  @media (min-width: 768px) {
+    .ucb-featured-grid > :first-child {
+      grid-row: span 2;
+    }
+  }
+</style>

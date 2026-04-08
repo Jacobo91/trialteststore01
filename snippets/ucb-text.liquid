@@ -1,0 +1,7 @@
+{%- comment -%} Text block snippet {%- endcomment -%}
+
+<div class="ucb-text-block" {{ block.shopify_attributes }}>
+  {%- if section.settings.text_content != blank -%}
+    {{ section.settings.text_content }}
+  {%- endif -%}
+</div>
