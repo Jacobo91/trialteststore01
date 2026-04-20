@@ -1,0 +1,59 @@
+<style>
+.stars-wrapper {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  height: 20px;
+}
+
+.stars-background,
+.stars-foreground {
+  display: flex;
+  gap: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.stars-background {
+  color: rgb(191, 191, 191); /* Light gray */
+  z-index: 1;
+}
+
+.stars-foreground {
+  color: #ffc107; /* Yellow */
+  z-index: 2;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+</style>
+
+{% assign product = product %}
+{% if product.metafields.custom.rating.value  %}
+    {%- assign rating = product.metafields.custom.rating.value -%}
+    {%- assign percentage = rating | times: 100 | divided_by: 5 -%}
+
+    <div class="stars-wrapper" aria-label="Rating: {{ rating }} out of 5" style="display: block;">
+    <div class="stars-background">
+        {% for i in (1..5) %}
+        <svg viewBox="0 0 20 20" class="star">
+            <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.561-.955L10 0l2.951 5.955 6.561.955-4.756 4.635 1.122 6.545z"/>
+        </svg>
+        {% endfor %}
+    </div>
+    <div class="stars-foreground" style="width: {{ rating }}%">
+        {% for i in (1..5) %}
+        <svg viewBox="0 0 20 20" class="star">
+            <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.561-.955L10 0l2.951 5.955 6.561.955-4.756 4.635 1.122 6.545z"/>
+        </svg>
+        {% endfor %}
+    </div>
+    </div>
+{% endif %}
