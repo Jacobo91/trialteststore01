@@ -281,24 +281,32 @@ fieldset.product-form__input .form__label {
   margin-bottom: 1rem;
 }
 
-.product-form__buttons {
-  position: sticky;
-  bottom: 1.6rem;
-  z-index: 3;
-  margin-top: 1.6rem;
-  padding: 1rem;
-  border: 0.1rem solid rgba(var(--color-foreground), 0.08);
-  border-radius: var(--buttons-radius-outset);
-  background: rgb(var(--color-background));
-  box-shadow: 0 0.8rem 2.4rem rgba(var(--color-shadow), 0.14);
+.product-sticky-atc {
+  display: none;
 }
 
-.product-form__buttons .product-form__submit {
-  margin-bottom: 0;
-}
+@media screen and (max-width: 749px) {
+  .product-sticky-atc {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    padding: 1rem 1.5rem calc(1rem + env(safe-area-inset-bottom));
+    background: rgb(var(--color-background));
+    box-shadow: 0 -0.4rem 2rem rgba(var(--color-shadow), 0.16);
+    transform: translateY(100%);
+    visibility: hidden;
+    opacity: 0;
+    transition: transform var(--duration-default) ease, opacity var(--duration-default) ease, visibility var(--duration-default) ease;
+  }
 
-.product-form__buttons .shopify-payment-button {
-  margin-top: 1rem;
+  .product-sticky-atc.is-visible {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .no-js .product-form__submit.button--secondary {

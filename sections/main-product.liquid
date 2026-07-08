@@ -550,6 +550,25 @@
 
   {% render 'product-media-modal' variant_images: variant_images %}
 
+  <div class="product-sticky-atc no-js-hidden" data-sticky-atc="{{ section.id }}" aria-hidden="true">
+    <button
+      type="submit"
+      form="{{ product_form_id }}"
+      class="product-sticky-atc__button product-form__submit button button--full-width button--primary"
+      {% if product.selected_or_first_available_variant.available == false %}
+        disabled
+      {% endif %}
+    >
+      <span>
+        {%- if product.selected_or_first_available_variant.available == false -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- else -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- endif -%}
+      </span>
+    </button>
+  </div>
+
   {% assign popups = section.blocks | where: 'type', 'popup' %}
   {%- for block in popups -%}
     <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
@@ -612,6 +631,61 @@
       document.querySelector('#Variants-{{ section.id }}').addEventListener('change', function (event) {
         hiddenInput.value = event.currentTarget.value;
       });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const stickyBar = document.querySelector('[data-sticky-atc="{{ section.id }}"]');
+      const originalButton = document.getElementById('ProductSubmitButton-{{ section.id }}');
+      const stickyButton = stickyBar && stickyBar.querySelector('button');
+      const stickyLabel = stickyButton && stickyButton.querySelector('span');
+      const mobileQuery = window.matchMedia('(max-width: 749px)');
+
+      if (!stickyBar || !originalButton || !stickyButton || !stickyLabel) return;
+
+      let originalButtonVisible = true;
+
+      function syncStickyButton() {
+        const isDisabled = originalButton.disabled || originalButton.getAttribute('aria-disabled') === 'true';
+        const originalLabel = originalButton.querySelector('span');
+
+        stickyButton.disabled = isDisabled;
+        stickyButton.setAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+
+        if (originalLabel && originalLabel.textContent.trim()) {
+          stickyLabel.textContent = originalLabel.textContent.trim();
+        }
+      }
+
+      function updateStickyBar() {
+        syncStickyButton();
+
+        const shouldShow = mobileQuery.matches && !originalButtonVisible && !stickyButton.disabled;
+        stickyBar.classList.toggle('is-visible', shouldShow);
+        stickyBar.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+      }
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          originalButtonVisible = entries[0].isIntersecting;
+          updateStickyBar();
+        },
+        { threshold: 0.01 }
+      );
+
+      observer.observe(originalButton);
+
+      const buttonObserver = new MutationObserver(updateStickyBar);
+      buttonObserver.observe(originalButton, { attributes: true, childList: true, subtree: true });
+
+      if (mobileQuery.addEventListener) {
+        mobileQuery.addEventListener('change', updateStickyBar);
+      } else {
+        mobileQuery.addListener(updateStickyBar);
+      }
+
+      updateStickyBar();
     });
   </script>
 
