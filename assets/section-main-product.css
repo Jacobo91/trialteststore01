@@ -281,6 +281,26 @@ fieldset.product-form__input .form__label {
   margin-bottom: 1rem;
 }
 
+.product-form__buttons {
+  position: sticky;
+  bottom: 1.6rem;
+  z-index: 3;
+  margin-top: 1.6rem;
+  padding: 1rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  border-radius: var(--buttons-radius-outset);
+  background: rgb(var(--color-background));
+  box-shadow: 0 0.8rem 2.4rem rgba(var(--color-shadow), 0.14);
+}
+
+.product-form__buttons .product-form__submit {
+  margin-bottom: 0;
+}
+
+.product-form__buttons .shopify-payment-button {
+  margin-top: 1rem;
+}
+
 .no-js .product-form__submit.button--secondary {
   --color-button: inherit;
   --color-button-text: inherit;
