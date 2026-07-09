@@ -552,8 +552,7 @@
 
   <div class="product-sticky-atc no-js-hidden" data-sticky-atc="{{ section.id }}" aria-hidden="true">
     <button
-      type="submit"
-      form="{{ product_form_id }}"
+      type="button"
       class="product-sticky-atc__button product-form__submit button button--full-width button--primary"
       {% if product.selected_or_first_available_variant.available == false %}
         disabled
@@ -673,6 +672,11 @@
         },
         { threshold: 0.01 }
       );
+
+      stickyButton.addEventListener('click', function () {
+        if (stickyButton.disabled || stickyButton.getAttribute('aria-disabled') === 'true') return;
+        originalButton.click();
+      });
 
       observer.observe(originalButton);
 
