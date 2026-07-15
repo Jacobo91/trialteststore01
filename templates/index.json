@@ -91,12 +91,19 @@
           "example-t-shirt"
         ]
       }
+    },
+    "hermes_test": {
+      "type": "hermes-test",
+      "settings": {
+        "text": "Hermes Test"
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
     "section_rendering_api_Kq34kB",
-    "shop_style_8zPiTz"
+    "shop_style_8zPiTz",
+    "hermes_test"
   ]
 }

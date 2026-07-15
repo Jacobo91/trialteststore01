@@ -1,0 +1,28 @@
+<section class="hermes-test section" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <p class="hermes-test__text">
+      {{ section.settings.text | escape }}
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hermes Test",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Hermes Test"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hermes Test"
+    }
+  ]
+}
+{% endschema %}
