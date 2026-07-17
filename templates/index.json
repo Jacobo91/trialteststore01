@@ -97,7 +97,7 @@
       "name": "test section",
       "settings": {
         "image": "shopify://shop_images/S2297b831adbb422ca1e16435eae494fdQ.webp",
-        "above_the_fold": false,
+        "above_the_fold": true,
         "heading": "Image with proper responsive loading",
         "heading_size": "h2"
       }
