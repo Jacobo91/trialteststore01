@@ -1,0 +1,100 @@
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign image = section.settings.image
+  assign desktop_image_width = 2000
+  assign image_loading = 'lazy'
+  assign image_fetchpriority = 'auto'
+
+  if section.settings.above_the_fold
+    assign image_loading = 'eager'
+    assign image_fetchpriority = 'high'
+  endif
+-%}
+
+<section class="test-section section" {{ section.shopify_attributes }}>
+  <div class="test-section__inner page-width">
+    <div class="test-section__media media">
+      {%- if image != blank -%}
+        {%- liquid
+          assign image_height = image.width | divided_by: image.aspect_ratio
+          assign image_alt = image.alt | default: section.settings.heading | escape
+        -%}
+        {{
+          image
+          | image_url: width: desktop_image_width
+          | image_tag:
+            width: image.width,
+            height: image_height,
+            alt: image_alt,
+            loading: image_loading,
+            fetchpriority: image_fetchpriority,
+            sizes: '(min-width: 1200px) 1100px, (min-width: 750px) calc(100vw - 10rem), calc(100vw - 3rem)',
+            widths: '375, 550, 750, 990, 1100, 1500, 1780, 2000',
+            class: 'test-section__image'
+        }}
+      {%- else -%}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.heading != blank -%}
+      <div class="test-section__content">
+        <h2 class="test-section__heading inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "test section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "above_the_fold",
+      "label": "Prioritize image loading",
+      "info": "Enable only when this section appears above the fold.",
+      "default": false
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Image with proper responsive loading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "test section"
+    }
+  ]
+}
+{% endschema %}
