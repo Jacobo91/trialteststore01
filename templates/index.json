@@ -91,12 +91,23 @@
           "example-t-shirt"
         ]
       }
+    },
+    "test_section_He6Ght": {
+      "type": "test-section",
+      "name": "test section",
+      "settings": {
+        "image": "shopify://shop_images/S2297b831adbb422ca1e16435eae494fdQ.webp",
+        "above_the_fold": false,
+        "heading": "Image with proper responsive loading",
+        "heading_size": "h2"
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
     "section_rendering_api_Kq34kB",
-    "shop_style_8zPiTz"
+    "shop_style_8zPiTz",
+    "test_section_He6Ght"
   ]
 }
