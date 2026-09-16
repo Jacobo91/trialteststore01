@@ -123,6 +123,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
     transition: opacity 260ms ease, transform 500ms ease;
   }
 
@@ -148,7 +149,14 @@
     top: 14px;
     left: 14px;
     z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 62px;
+    min-height: 21px;
     padding: 7px 11px;
+    border: 1px solid #000;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.9);
     color: var(--platter-ink);
@@ -186,20 +194,13 @@
     font-weight: 800;
   }
 
-  #platter-tc-{{ section.id }} .platter-tc__swatches {
-    display: flex;
-    gap: 6px;
-  }
-
-  #platter-tc-{{ section.id }} .platter-tc__swatch {
-    width: 14px;
-    height: 14px;
-    border: 1px solid rgba(31, 31, 31, 0.16);
-    border-radius: 999px;
-  }
 
   #platter-tc-{{ section.id }} .platter-tc__button-wrap {
     display: none;
+  }
+
+  #platter-tc-{{ section.id }} .platter-tc__button-wrap.is-hidden {
+    display: none !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -312,55 +313,94 @@
       <div class="platter-tc__scroller" data-platter-scroller>
         <div class="platter-tc__grid-wrap" data-platter-grid-wrap>
           <ul class="platter-tc__grid flex md:flex-nowrap" role="list" data-platter-grid>
-            {% assign titles = 'Sunday Ribbed Tank|Market Linen Shirt|Coastal Utility Pant|Studio Poplin Dress|Gallery Cotton Short|Terrace Knit Polo|Archive Denim Jacket|Soft Lounge Trouser|Washed Canvas Tote|Evening Slip Skirt' | split: '|' %}
-            {% assign categories = 'Best Seller|New Color|Low Stock|Editor Pick|Organic Cotton|Vacation Ready|Layering Hero|Soft Touch|Carry All|Limited Run' | split: '|' %}
-            {% assign prices = '$48|$86|$118|$132|$64|$78|$148|$96|$58|$110' | split: '|' %}
-            {% assign image_a = 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1506629905607-d9e297d5f5f4?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1520975954732-35dd22299614?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1554342872-034a06541bad?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=80' | split: '|' %}
-            {% assign image_b = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1520975682031-a3b9bb42d4ef?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=900&q=80' | split: '|' %}
+            {% assign selected_collection = section.settings.collection %}
 
-            {% for title in titles %}
-              <li class="platter-tc__product{% if forloop.index > 4 %} is-mobile-extra{% endif %}" data-platter-product>
-                <article class="platter-tc__card h-full">
-                  <a class="platter-tc__media" href="#" aria-label="View {{ title | escape }}">
-                    <span class="platter-tc__badge">{{ categories[forloop.index0] }}</span>
-                    <img
-                      class="platter-tc__image platter-tc__image--primary"
-                      src="{{ image_a[forloop.index0] }}"
-                      alt="{{ title | escape }} primary product view"
-                      loading="lazy"
-                      width="900"
-                      height="1026"
-                    >
-                    <img
-                      class="platter-tc__image platter-tc__image--secondary"
-                      src="{{ image_b[forloop.index0] }}"
-                      alt="{{ title | escape }} alternate product view"
-                      loading="lazy"
-                      width="900"
-                      height="1026"
-                    >
-                  </a>
+            {% if selected_collection != blank and selected_collection.products != blank %}
+              {% for product in selected_collection.products limit: 10 %}
+                {% assign primary_image = product.featured_image %}
+                {% assign secondary_image = product.images[1] | default: product.featured_image %}
+                {% assign badge_text = product.type | default: product.vendor | default: 'Featured' %}
 
-                  <div class="platter-tc__content">
-                    <h3 class="platter-tc__product-title">{{ title }}</h3>
-                    <div class="platter-tc__meta">
-                      <span>★★★★★ 1,234 Reviews</span>
-                      <span class="platter-tc__price">{{ prices[forloop.index0] }}</span>
+                <li class="platter-tc__product{% if forloop.index > 4 %} is-mobile-extra{% endif %}" data-platter-product>
+                  <article class="platter-tc__card h-full">
+                    <a class="platter-tc__media" href="{{ product.url }}" aria-label="View {{ product.title | escape }}">
+                      <span class="platter-tc__badge">{{ badge_text }}</span>
+                      {% if primary_image != blank %}
+                        <img
+                          class="platter-tc__image platter-tc__image--primary"
+                          src="{{ primary_image | image_url: width: 900 }}"
+                          alt="{{ primary_image.alt | default: product.title | escape }}"
+                          loading="lazy"
+                          width="900"
+                          height="1026"
+                        >
+                        <img
+                          class="platter-tc__image platter-tc__image--secondary"
+                          src="{{ secondary_image | image_url: width: 900 }}"
+                          alt="{{ secondary_image.alt | default: product.title | escape }} alternate product view"
+                          loading="lazy"
+                          width="900"
+                          height="1026"
+                        >
+                      {% endif %}
+                    </a>
+
+                    <div class="platter-tc__content">
+                      <h3 class="platter-tc__product-title">{{ product.title }}</h3>
+                      <div class="platter-tc__meta">
+                        <span>★★★★★ 1,234 Reviews</span>
+                        <span class="platter-tc__price">{{ product.price | money }}</span>
+                      </div>
                     </div>
-                    <div class="platter-tc__swatches" aria-label="Available colors">
-                      <span class="platter-tc__swatch" style="background: #1f1f1f;"></span>
-                      <span class="platter-tc__swatch" style="background: #d8c5b4;"></span>
-                      <span class="platter-tc__swatch" style="background: #f4eee8;"></span>
+                  </article>
+                </li>
+              {% endfor %}
+            {% else %}
+              {% assign titles = 'Sunday Ribbed Tank|Market Linen Shirt|Coastal Utility Pant|Studio Poplin Dress|Gallery Cotton Short|Terrace Knit Polo|Archive Denim Jacket|Soft Lounge Trouser|Washed Canvas Tote|Evening Slip Skirt' | split: '|' %}
+              {% assign categories = 'Best Seller|New Color|Low Stock|Editor Pick|Organic Cotton|Vacation Ready|Layering Hero|Soft Touch|Carry All|Limited Run' | split: '|' %}
+              {% assign prices = '$48|$86|$118|$132|$64|$78|$148|$96|$58|$110' | split: '|' %}
+              {% assign image_a = 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1506629905607-d9e297d5f5f4?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1520975954732-35dd22299614?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1554342872-034a06541bad?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=80' | split: '|' %}
+              {% assign image_b = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1520975682031-a3b9bb42d4ef?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80|https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=900&q=80' | split: '|' %}
+
+              {% for title in titles %}
+                <li class="platter-tc__product{% if forloop.index > 4 %} is-mobile-extra{% endif %}" data-platter-product>
+                  <article class="platter-tc__card h-full">
+                    <a class="platter-tc__media" href="#" aria-label="View {{ title | escape }}">
+                      <span class="platter-tc__badge">{{ categories[forloop.index0] }}</span>
+                      <img
+                        class="platter-tc__image platter-tc__image--primary"
+                        src="{{ image_a[forloop.index0] }}"
+                        alt="{{ title | escape }} primary product view"
+                        loading="lazy"
+                        width="900"
+                        height="1026"
+                      >
+                      <img
+                        class="platter-tc__image platter-tc__image--secondary"
+                        src="{{ image_b[forloop.index0] }}"
+                        alt="{{ title | escape }} alternate product view"
+                        loading="lazy"
+                        width="900"
+                        height="1026"
+                      >
+                    </a>
+
+                    <div class="platter-tc__content">
+                      <h3 class="platter-tc__product-title">{{ title }}</h3>
+                      <div class="platter-tc__meta">
+                        <span>★★★★★ 1,234 Reviews</span>
+                        <span class="platter-tc__price">{{ prices[forloop.index0] }}</span>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              </li>
-            {% endfor %}
+                  </article>
+                </li>
+              {% endfor %}
+            {% endif %}
           </ul>
         </div>
       </div>
 
-      <div class="platter-tc__button-wrap">
+      <div class="platter-tc__button-wrap" data-platter-button-wrap>
         <button class="platter-tc__show-more" type="button" data-platter-toggle aria-expanded="false">
           {{ section.settings.show_more_label }}
         </button>
@@ -375,6 +415,7 @@
       this.gridWrap = this.querySelector('[data-platter-grid-wrap]');
       this.grid = this.querySelector('[data-platter-grid]');
       this.toggle = this.querySelector('[data-platter-toggle]');
+      this.buttonWrap = this.querySelector('[data-platter-button-wrap]');
       this.scroller = this.querySelector('[data-platter-scroller]');
       this.mobileQuery = window.matchMedia('(max-width: 749px)');
 
@@ -405,7 +446,8 @@
     onToggle() {
       if (!this.gridWrap || !this.toggle) return;
 
-      const isExpanded = this.gridWrap.classList.toggle('is-expanded');
+      const isExpanded = !this.gridWrap.classList.contains('is-expanded');
+      this.gridWrap.classList.toggle('is-expanded', isExpanded);
       this.toggle.setAttribute('aria-expanded', String(isExpanded));
       this.toggle.textContent = isExpanded ? '{{ section.settings.show_less_label | escape }}' : '{{ section.settings.show_more_label | escape }}';
       this.syncHeights();
@@ -414,18 +456,31 @@
     syncHeights() {
       if (!this.gridWrap || !this.grid) return;
 
+      const items = Array.from(this.grid.querySelectorAll('[data-platter-product]'));
+
       if (!this.mobileQuery.matches) {
+        this.gridWrap.classList.remove('is-expanded');
         this.gridWrap.style.removeProperty('--platter-collapsed-height');
         this.gridWrap.style.removeProperty('--platter-expanded-height');
+        this.buttonWrap?.classList.add('is-hidden');
         return;
       }
 
-      const items = Array.from(this.grid.querySelectorAll('[data-platter-product]'));
+      if (items.length <= 4) {
+        this.gridWrap.classList.add('is-expanded');
+        this.buttonWrap?.classList.add('is-hidden');
+        this.gridWrap.style.setProperty('--platter-collapsed-height', `${this.grid.scrollHeight}px`);
+        this.gridWrap.style.setProperty('--platter-expanded-height', `${this.grid.scrollHeight}px`);
+        return;
+      }
+
+      this.buttonWrap?.classList.remove('is-hidden');
       const firstVisibleRows = items.slice(0, 4);
       const collapsedHeight = firstVisibleRows.reduce((height, item) => Math.max(height, item.offsetTop + item.offsetHeight), 0);
+      const expandedHeight = this.grid.scrollHeight;
 
       this.gridWrap.style.setProperty('--platter-collapsed-height', `${collapsedHeight}px`);
-      this.gridWrap.style.setProperty('--platter-expanded-height', `${this.grid.scrollHeight}px`);
+      this.gridWrap.style.setProperty('--platter-expanded-height', `${expandedHeight}px`);
     }
 
     activateScrollbar() {
@@ -469,6 +524,11 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "Ten elevated staples with responsive cards, smooth mobile reveal, and alternate hover imagery."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
     },
     {
       "type": "text",
