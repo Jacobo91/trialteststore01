@@ -1,102 +1,267 @@
 {% assign selected_variant = product.selected_or_first_available_variant %}
+{% assign product_form_id = 'ProductForm-' | append: section.id %}
 
 <section id="PdpDemo-{{ section.id }}">
-  <div>
-    <p>{{ product.title | escape }}</p>
-    <p>{{ selected_variant.price | money }}</p>
-  </div>
+  <!-- Only this container's children are replaced -->
+  <div data-product-content>
+    <div>
 
-  <div>
-    
-    {%- unless product.has_only_default_variant -%}
-    <variant-selects data-url="{{ product.url }}" data-section="{{ section.id }}">
-        {%- for option in product.options_with_values -%}
-        <fieldset class="js-product-form__input" style="border: none; margin-bottom: 20px;">
-            <legend style="font-weight: bold; margin-bottom: 8px;">{{ option.name }}</legend>
-            
-            {%- for value in option.values -%}
-            <input 
-                type="radio" 
+        {% assign selected_color = selected_variant.option1 | downcase | strip %}
+        {% assign matching_images = 0 %}
+
+        <div data-variant-images>
+        {% for media in product.media %}
+            {% assign media_alt = media.alt | downcase %}
+
+            {% if media.media_type == 'image' and selected_color != blank %}
+            {% if media_alt contains selected_color %}
+                {% assign matching_images = matching_images | plus: 1 %}
+
+                {{
+                media.preview_image
+                | image_url: width: 800
+                | image_tag:
+                    widths: '320, 480, 640, 800',
+                    sizes: '(max-width: 800px) 100vw, 800px',
+                    style: 'max-width: 100%; height: auto;'
+                }}
+            {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if matching_images == 0 %}
+            {% assign fallback_image = selected_variant.featured_image
+            | default: product.featured_image
+            %}
+
+            {% if fallback_image %}
+            {{
+                fallback_image
+                | image_url: width: 800
+                | image_tag:
+                widths: '320, 480, 640, 800',
+                sizes: '(max-width: 800px) 100vw, 800px',
+                style: 'max-width: 100%; height: auto;'
+            }}
+            {% endif %}
+        {% endif %}
+        </div>
+
+      <p>{{ product.title | escape }}</p>
+      <p data-price>{{ selected_variant.price | money }}</p>
+    </div>
+
+    {% unless product.has_only_default_variant %}
+      <div data-variant-picker>
+        {% for option in product.options_with_values %}
+          <fieldset style="border: none; margin-bottom: 20px;">
+            <legend style="font-weight: bold; margin-bottom: 8px;">
+              {{ option.name | escape }}
+            </legend>
+
+            {% for value in option.values %}
+              <input
+                type="radio"
                 id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                name="{{ option.name }}" 
+                name="option-{{ section.id }}-{{ option.position }}"
                 value="{{ value | escape }}"
-                form="{{ product_form_id }}"
                 {% if option.selected_value == value %}checked{% endif %}
-            >
-            <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" style="margin-right: 10px; cursor: pointer;">
-                {{ value }}
-            </label>
-            {%- endfor -%}
-        </fieldset>
-        {%- endfor -%}
+              >
 
-        <!-- JSON crítico: Guarda los datos de todas las variantes para que JavaScript los lea -->
-        <script type="application/json">
-        {{ product.variants | json }}
-        </script>
-    </variant-selects>
-    {%- endunless -%}
+              <label
+                for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                style="margin-right: 10px; cursor: pointer;"
+              >
+                {{ value | escape }}
+              </label>
+            {% endfor %}
+          </fieldset>
+        {% endfor %}
+      </div>
+    {% endunless %}
 
-    <!-- Input oculto obligatorio que se envía al carrito con el ID de la variante seleccionada -->
-    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" form="{{ product_form_id }}">
+    <script type="application/json" data-variants>
+      {{ product.variants | json }}
+    </script>
 
+    <form
+      id="{{ product_form_id }}"
+      method="post"
+      action="{{ routes.cart_add_url }}"
+    >
+      <input
+        type="hidden"
+        name="id"
+        value="{{ selected_variant.id }}"
+      >
+
+      <label for="Quantity-{{ section.id }}">Quantity</label>
+      <input
+        min="1"
+        step="1"
+        type="number"
+        id="Quantity-{{ section.id }}"
+        name="quantity"
+        value="1"
+      >
+
+      <button
+        type="submit"
+        class="btn"
+        data-atc
+        {% unless selected_variant.available %}disabled{% endunless %}
+      >
+        {% if selected_variant.available %}
+          Add to cart
+        {% else %}
+          Sold out
+        {% endif %}
+      </button>
+    </form>
   </div>
 
-  <form method="post" action="{{ routes.cart_add_url }}">
-    <input
-      type="hidden"
-      name="id"
-      value="{{ selected_variant.id }}"
-    >
-
-    <label for="Quantity-{{ section.id }}">Quantity</label>
-    <input
-      min="1"
-      type="number"
-      id="Quantity-{{ section.id }}"
-      name="quantity"
-      value="1"
-    >
-
-    <button
-      type="submit"
-      class="btn"
-      {% unless selected_variant.available %}disabled{% endunless %}
-    >
-      {% if selected_variant.available %}
-        Add to cart
-      {% else %}
-        Sold out
-      {% endif %}
-    </button>
-  </form>
+  <p data-status role="status" aria-live="polite"></p>
 </section>
 
 <script>
   (() => {
     const sectionId = {{ section.id | json }};
-    const url = new URL(window.location.href);
+    const root = document.getElementById(`PdpDemo-${sectionId}`);
 
-    url.searchParams.set('sections', sectionId);
+    if (!root || root.dataset.initialized) return;
+    root.dataset.initialized = 'true';
 
-    fetch(url)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`Request failed: ${res.status}`);
+    const content = root.querySelector('[data-product-content]');
+    const status = root.querySelector('[data-status]');
+
+    let controller;
+    let requestNumber = 0;
+
+    // Delegation: attach to the parent that survives replacement.
+    root.addEventListener('change', async (event) => {
+      if (!event.target.matches('[data-variant-picker] input[type="radio"]')) {
+        return;
+      }
+
+      // Cancel an older request if another option is selected quickly.
+      controller?.abort();
+      const currentRequest = ++requestNumber;
+
+      const selectedOptions = Array.from(
+        root.querySelectorAll('[data-variant-picker] fieldset')
+      ).map(fieldset => {
+        return fieldset.querySelector('input:checked')?.value;
+      });
+
+      const variants = JSON.parse(
+        root.querySelector('[data-variants]').textContent
+      );
+
+      const variant = variants.find(variant => {
+        return variant.options.every((option, index) => {
+          return option === selectedOptions[index];
+        });
+      });
+
+      const button = root.querySelector('[data-atc]');
+      const variantInput = root.querySelector('input[name="id"]');
+
+      // Prevent submitting the previous variant while loading.
+      button.disabled = true;
+      variantInput.disabled = true;
+
+      if (!variant) {
+        root.removeAttribute('aria-busy');
+        root.querySelector('[data-price]').textContent = 'Unavailable';
+        button.textContent = 'Unavailable';
+        status.textContent = 'This option combination does not exist.';
+        return;
+      }
+
+      controller = new AbortController();
+      root.setAttribute('aria-busy', 'true');
+      status.textContent = 'Updating variant…';
+
+      // Remember the radio to restore keyboard focus after replacement.
+      const focusedRadioId = event.target.id;
+
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('section_id');
+        url.searchParams.set('sections', sectionId);
+        url.searchParams.set('variant', variant.id);
+
+        const response = await fetch(url, {
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed: ${response.status}`);
         }
 
-        return res.json();
-      })
-      .then(sections => {
+        const sections = await response.json();
         const html = sections[sectionId];
 
         if (html == null) {
           throw new Error('Section could not be rendered.');
         }
 
-        console.log('Section HTML:', html);
-      })
-      .catch(console.error);
+        const parsed = new DOMParser().parseFromString(html, 'text/html');
+        const updatedRoot = parsed.getElementById(`PdpDemo-${sectionId}`);
+        const updatedContent = updatedRoot?.querySelector(
+          '[data-product-content]'
+        );
+
+        if (!updatedContent) {
+          throw new Error('Product content was missing from the response.');
+        }
+
+        if (currentRequest !== requestNumber) return;
+
+        // Read quantity just before replacement so edits during loading survive.
+        const quantity = root.querySelector('input[name="quantity"]').value;
+        const oldRadio = event.target;
+
+        // New child elements; the outer root and its listener survive.
+        content.innerHTML = updatedContent.innerHTML;
+
+        root.querySelector('input[name="quantity"]').value = quantity;
+
+        // Update the browser URL without navigating.
+        const browserUrl = new URL(window.location.href);
+        browserUrl.searchParams.set('variant', variant.id);
+        window.history.replaceState(
+          window.history.state,
+          '',
+          browserUrl
+        );
+
+        if (document.activeElement === document.body) {
+          document.getElementById(focusedRadioId)?.focus();
+        }
+
+        status.textContent = variant.available
+          ? 'Variant updated.'
+          : 'This variant is sold out.';
+
+        console.log('Section rendered:', {
+          variantId: variant.id,
+          oldRadioStillConnected: oldRadio.isConnected,
+          listenerParentStillConnected: root.isConnected
+        });
+      } catch (error) {
+        if (error.name === 'AbortError') return;
+        if (currentRequest !== requestNumber) return;
+
+        // Keep ATC disabled: displayed options may not match the old form.
+        status.textContent = 'Could not update the variant. Select an option to retry.';
+        console.error(error);
+      } finally {
+        if (currentRequest === requestNumber) {
+          root.removeAttribute('aria-busy');
+        }
+      }
+    });
   })();
 </script>
 
