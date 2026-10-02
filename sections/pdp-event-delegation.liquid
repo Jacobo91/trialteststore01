@@ -1,0 +1,113 @@
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
+<section id="PdpDemo-{{ section.id }}">
+  <div>
+    <p>{{ product.title | escape }}</p>
+    <p>{{ selected_variant.price | money }}</p>
+  </div>
+
+  <div>
+    
+    {%- unless product.has_only_default_variant -%}
+    <variant-selects data-url="{{ product.url }}" data-section="{{ section.id }}">
+        {%- for option in product.options_with_values -%}
+        <fieldset class="js-product-form__input" style="border: none; margin-bottom: 20px;">
+            <legend style="font-weight: bold; margin-bottom: 8px;">{{ option.name }}</legend>
+            
+            {%- for value in option.values -%}
+            <input 
+                type="radio" 
+                id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                name="{{ option.name }}" 
+                value="{{ value | escape }}"
+                form="{{ product_form_id }}"
+                {% if option.selected_value == value %}checked{% endif %}
+            >
+            <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" style="margin-right: 10px; cursor: pointer;">
+                {{ value }}
+            </label>
+            {%- endfor -%}
+        </fieldset>
+        {%- endfor -%}
+
+        <!-- JSON crítico: Guarda los datos de todas las variantes para que JavaScript los lea -->
+        <script type="application/json">
+        {{ product.variants | json }}
+        </script>
+    </variant-selects>
+    {%- endunless -%}
+
+    <!-- Input oculto obligatorio que se envía al carrito con el ID de la variante seleccionada -->
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" form="{{ product_form_id }}">
+
+  </div>
+
+  <form method="post" action="{{ routes.cart_add_url }}">
+    <input
+      type="hidden"
+      name="id"
+      value="{{ selected_variant.id }}"
+    >
+
+    <label for="Quantity-{{ section.id }}">Quantity</label>
+    <input
+      min="1"
+      type="number"
+      id="Quantity-{{ section.id }}"
+      name="quantity"
+      value="1"
+    >
+
+    <button
+      type="submit"
+      class="btn"
+      {% unless selected_variant.available %}disabled{% endunless %}
+    >
+      {% if selected_variant.available %}
+        Add to cart
+      {% else %}
+        Sold out
+      {% endif %}
+    </button>
+  </form>
+</section>
+
+<script>
+  (() => {
+    const sectionId = {{ section.id | json }};
+    const url = new URL(window.location.href);
+
+    url.searchParams.set('sections', sectionId);
+
+    fetch(url)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Request failed: ${res.status}`);
+        }
+
+        return res.json();
+      })
+      .then(sections => {
+        const html = sections[sectionId];
+
+        if (html == null) {
+          throw new Error('Section could not be rendered.');
+        }
+
+        console.log('Section HTML:', html);
+      })
+      .catch(console.error);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "PDP event delegation",
+  "settings": [],
+  "presets": [
+    {
+      "name": "PDP event delegation"
+    }
+  ]
+}
+{% endschema %}
